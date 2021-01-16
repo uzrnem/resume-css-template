@@ -12,9 +12,12 @@
 :root {
   --black: #000;
   --bulma: #2c82de;
+  --faint: #6baaee;
   --dark-bool: #2c82de;
 }
 .bulma-color { color: var(--bulma); }
+.faint-color { color: var(--faint); }
+.small-font { font-size: 1rem !important; }
 .container {
   padding: 15px;
   margin: auto;
@@ -24,23 +27,21 @@
   color: var(--bulma);
   text-transform: uppercase;
 }
-code {
-  color: var(--black);
-}
-body {
-  font-size: 1.2rem !important;
-}
+code { color: var(--bulma); }
+body { font-size: 1.3rem !important; }
+.col-md-8 { padding-right: 20px;}
+.container {  margin: 0 2rem 0 2rem; max-width: 980px; }
     </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="row">
+    <div class="row mb-4">
       <div class="col-md-8">
-        <p class="h1 font-weight-bold">Bhagyesh Sunil Patel</p>
-        <p class="h3 bulma-color">Java Backend Programmer</p>
+        <p class="h2 font-weight-bold">Bhagyesh Sunil Patel</p>
+        <p class="h4 bulma-color">Java Backend Programmer</p>
         <div>
-          <ol class="mt-2 mb-0">
+          <ol class="mt-2 mb-0 text-justify">
             <li><b>4+ years</b> experienced <b>Java</b> Developer highly skilled in planning, documentation, and testing across the
     complete development life cycle of a product to ensure smooth product development.</li>
             <li>Software delivery expert with <b>microservices</b> and end to end software development life cycle
@@ -54,66 +55,75 @@ body {
           <a href="tel:+919604400880" class="bulma-color">96-0440-0880</a> /
           <a href="tel:+917709067908" class="bulma-color">77 090 67 908</a>
         </p>
-        <p class="text-right"><a href="mailto:bhagyeshsunilpatel@gmail.com" class="bulma-color">bhagyeshsunilpatel@gmail.com</a></p>
+        <p class="text-right m-0"><a href="mailto:bhagyeshsunilpatel@gmail.com" class="bulma-color">bhagyeshsunilpatel@gmail.com</a></p>
+        <p class="text-right m-0"><a href="https://devtul.firebaseapp.com" class="bulma-color">devtul.firebaseapp.com</a></p>
+        <p class="text-right m-0"><a href="https://nottebukk.firebaseapp.com" class="bulma-color">nottebukk.firebaseapp.com</a></p>
       </div>
     </div>
     <div class="row">
       <div class="col-md-8">
         <div class="experiences mt-4">
-          <p class="h4 heading">Experience</p>
+          <p class="h4-ignore heading">Experience</p>
 
-          <div class="experience mt-4">
-            <p class="h5">
-              <span class="bulma-color">Kapstone Cybersecurity Pvt Ltd</span>,
-              <span class="font-italic">Software Engineer - Pune</span>
-            </p>
-            <p class="text-secondary mb-0">Oct 19 - Present (1.4+ Years)</p>
-            <p class="mb-0">Worked on Backend/API, Handled Database Operations and various microservices.
+          <div class="experience mt-2">
+            <div class="textbox">
+              <p class="h5 bulma-color mb-0" style="float: left;"><b>Kapstone Cybersecurity Pvt Ltd</b></p>
+              <p class="faint-color small-font mb-0" style="float: right;">Oct 19 - Present (1.4+ Years)</p>
+              <div style="clear: both;"></div>
+            </div>
+            <span class="font-italic small-font">Software Engineer - Pune</span>
+            <p class="mb-0 text-justify">Worked on Backend/API, Handled Database Operations and various microservices.
               Worked on Postgres Queries for inserting 3rd Party Data and showing results and time on task of learners.
               Trained junior developers to write clean, testable code which follows coding standards.
             </p>
-            <code class="highlighter-rouge">
-              <b><i>Java</i></b>, <b><i>Spring Boot</i></b>, <b><i>Microservices</i></b>, Maven, Postgres, AWS, SCP, Postman.
-            </code>
+            <p class="mb-0 text-justify">
+              <code class="highlighter-rouge">
+                <b><i>Java</i></b>, <b><i>Spring Boot</i></b>, <b><i>Microservices</i></b>, Maven, Postgres, AWS, SCP, Postman.
+              </code>
+            </p>
           </div>
 
           <div class="experience mt-4">
-            <p class="h5">
-              <span class="bulma-color">Shiplyst Systems Pvt Ltd</span>,
-              <span class="font-italic">Software Engineer - Bangalore</span>
-            </p>
-            <p class="text-secondary mb-0">Oct 16 - Aug 19 (~3 Years)</p>
-            <p class="mb-0">Worked on Backend/API for along with frontend component, Handled Database Operations and various microservices.
+            <div class="textbox">
+              <p class="h5 bulma-color mb-0" style="float: left;"><b>Shiplyst Systems Pvt Ltd</b></p>
+              <p class="faint-color small-font mb-0" style="float: right;">Oct 16 - Aug 19 (~3 Years)</p>
+              <div style="clear: both;"></div>
+            </div>
+            <span class="font-italic small-font">Software Engineer - Bangalore</span>
+            <p class="mb-0 text-justify">Worked on Backend/API for along with frontend component, Handled Database Operations and various microservices.
               Worked on Mysql Queries to find out quickest, low cost routes. Trained junior developers to write clean, testable code which follows coding standards.
             </p>
-            <code class="highlighter-rouge">
-              <b><i>Java</i></b>, Php, <b><i>MySQL</i></b>, <b><i>JavaScript</i></b>, <b><i>Bootstrap</i></b>, <b><i>MongoDB</i></b>, <b><i>Redis</i></b>,
-              NodeJS, Postman, <b><i>Google Dev Console</i></b>.
-            </code>
+            <p class="mb-0 text-justify">
+              <code class="highlighter-rouge">
+                <b><i>Java</i></b>, Php, <b><i>MySQL</i></b>, <b><i>JavaScript</i></b>, <b><i>Bootstrap</i></b>, <b><i>MongoDB</i></b>, <b><i>Redis</i></b>,
+                NodeJS, Postman, <b><i>Google Dev Console</i></b>.
+              </code>
+            </p>
           </div>
         </div>
 
-        <div class="academics mt-5">
-          <p class="h4 heading">Academics</p>
+        <div class="academics mt-4">
+          <p class="h4-ignore heading">Academics</p>
 
-          <div class="academic mt-4">
-            <p class="h5">
-              <span class="bulma-color">Bachelor of Engineering</span>,
-              <span class="font-italic">NMU - Jalgaon</span>
-            </p>
-            <p class="text-secondary mb-0">2012 - 2016</p>
-            <p class="mb-0"><b><i>Information Technology</i></b> from SSBT's College of Engineering and
+          <div class="academic mt-2">
+            <div class="textbox">
+              <p class="h5 bulma-color mb-0" style="float: left;"><b>Bachelor of Engineering</b></p>
+              <p class="faint-color small-font mb-0" style="float: right;">2012 - 2016</p>
+              <div style="clear: both;"></div>
+            </div>
+            <span class="font-italic small-font">North Maharashtra University, Jalgaon</span>
+            <p class="mb-0 text-justify"><b><i>Information Technology</i></b> from SSBT's College of Engineering and
             Technology, Jalgaon with <b><i>7.24 CGPA</i></b>.
             </p>
           </div>
         </div>
 
-        <div class="projects mt-5">
-          <p class="h4 heading">Open Source Projects</p>
+        <div class="projects mt-4">
+          <p class="h4-ignore heading">Open Source Projects</p>
 
-          <div class="project mt-4">
-            <p class="h5 bulma-color">Smooth Validator for JavaScript</p>
-            <p class="mb-0">Provides faster way to write validation for Frontend and Backend JavaScript Code.</p>
+          <div class="project mt-2">
+            <p class="h5 bulma-color"><b>Smooth Validator for JavaScript</b></p>
+            <p class="mb-0 text-justify">Provides faster way to write validation for Frontend and Backend JavaScript Code.</p>
             <p class="mt-2 mb-0"><span class="bold-boot">NPM: </span><a class="bulma-color" href="https://npmjs.com/package/smooth-validator">npmjs.com/package/smooth-validator</a></p>
             <p class="mt-1 mb-0"><span class="bold-boot">Github: </span><a class="bulma-color" href=" https://github.com/uzrnem/smooth-validator">github.com/uzrnem/smooth-validator</a></p>
             <p class="mt-1 mb-0"><span class="bold-boot">Github-Typescript (v2): </span><a class="bulma-color" href=" https://github.com/uzrnem/smooth-check">github.com/uzrnem/smooth-check</a></p>
@@ -121,37 +131,37 @@ body {
         </div>
       </div>
       <div class="col-md-4">
-        <div class="teck-stacks mt-4">
-          <p class="h4 bulma-color">TECH STACK</p>
+        <div class="teck-stacks mt-4 text-justify">
+          <p class="h4-ignore bulma-color"><b>TECH STACK</b></p>
 
-          <div class="tech-stack mt-5">
+          <div class="tech-stack mt-3">
             <p class="bold-boot mb-0 heading">Programming, Scripting and other Languages</p>
-            <p class="m-0">Java, Java Script, JSON.</p>
+            <p class="m-0"><b><i>Java</i></b>, Java Script, JSON.</p>
           </div>
-          <div class="tech-stack mt-5">
+          <div class="tech-stack mt-3">
             <p class="bold-boot mb-0 heading">Frameworks</p>
-            <p class="m-0">Spring Boot, Bootstrap and NodeJS.</p>
+            <p class="m-0"><b><i>Spring Boot</i></b>, Bootstrap and NodeJS.</p>
           </div>
-          <div class="tech-stack mt-5">
+          <div class="tech-stack mt-3">
             <p class="bold-boot mb-0 heading">Database</p>
-            <p class="m-0">MySQL, Redis and MongoDB.</p>
+            <p class="m-0"><b><i>MySQL</i></b>, Redis and MongoDB.</p>
           </div>
-          <div class="tech-stack mt-5">
+          <div class="tech-stack mt-3">
             <p class="bold-boot mb-0 heading">Tools</p>
             <p class="m-0">SSH, SCP, Postman and Chrome Dev Tool.</p>
           </div>
-          <div class="tech-stack mt-5">
+          <div class="tech-stack mt-3">
             <p class="bold-boot mb-0 heading">Other Tools</p>
-            <p class="m-0">Docker, Jenkins, AWS, Maven, Bitbucket and Git.</p>
+            <p class="m-0"><b><i>Docker</i></b>, Jenkins, AWS, Maven, Bitbucket and Git.</p>
           </div>
-          <div class="tech-stack mt-5">
+          <div class="tech-stack mt-3">
             <p class="bold-boot mb-0 heading">Server</p>
             <p class="m-0">Spring Boot Embedded Server, Nginx.</p>
           </div>
         </div>
 
-        <div class="teck-stacks mt-5">
-          <p class="h4 heading">Personal Details</p>
+        <div class="teck-stacks mt-4">
+          <p class="h4-ignore heading">Personal Details</p>
 
           <p class="mt-2 mb-0"><span class="icon"><i class="fas fa-birthday-cake"></i></span> Sep 10th, 1994</p>
           <p class="mt-1 mb-0"><span class="icon"><i class="fab fa-github-square"></i></span> <a class="bulma-color" href="https://github.com/uzrnem">github.com/uzrnem</a></p>
