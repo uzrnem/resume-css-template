@@ -13,7 +13,7 @@
           --bulma: #2c82de;
           --faint: #6baaee;
           --dark-bool: #2c82de;
-          --default-size: 1.3rem;
+          --default-size: 1.4rem;
           --small-size: 1rem;
         }
         code { color: var(--bulma); }
@@ -28,280 +28,170 @@
         .col-md-8 { padding-right: 20px;}
         .container {  margin: 0 2rem 0 2rem; max-width: 980px; }
         .code { font-style: italic; }
-        .timeline {
-          border-left: 3px solid var(--bulma);
-          border-bottom-right-radius: 4px;
-          letter-spacing: 0.2px;
-          position: relative;
-          padding: 10px;
-          padding-right: 0px;
+        .content { border-top: 2px solid var(--dark-bool); }
+        .content .timeline {
+          /* border-left: 2px solid var(--dark-bool); */
           list-style: none;
-          text-align: left;
-          margin-left: 20px;
+          padding-left: 20px;
         }
-        .timeline .event {
-          border-bottom: 1px dashed var(--dark-bool);
-          padding-left: 5px;
-          padding-bottom: 0;
-          margin-bottom: 10px;
+        .content .timeline .event:first-of-type {
+          padding-top: 10px;
+        }
+        .content .timeline .event:first-of-type::before {
+          top: 15px;
+        }
+        .content .timeline .event {
+          margin-bottom: 5px;
           position: relative;
-        }
-        .timeline .event:last-of-type {
-          padding-bottom: 0;
-          margin-bottom: 0;
-          border: none;
-        }
-        .timeline .event:after {
-          display: block;
-          content: "";
-          z-index: 1;
-          position: absolute;
-        }
-        .timeline .event-triangle:after {
-          top: 3px;
-          left: -11px;
-          width:0px;
-          height:0px;
-          border:11px solid;
-          border-top-color: transparent;
-          border-left-color: var(--bulma);
-          border-right-color: transparent;
-          border-bottom-color: transparent;
-        }
-        .timeline .event-circle:after {
-          top: 8px;
-          left: -18px;
-          box-shadow: 0 0 0 3px var(--bulma);
-          border-radius: 50%;
-          width: 13px;
-          height: 13px;
-          background-color: white;
-          border: 3px solid var(--bulma);
-        }
-        .arrow {
-          position: relative;
-          text-indent: 15px;
-        }
-        .arrow::before {
-          top: 10px;
-          left: 0;
-          content: '';
-          width: 10px;
-          height: 10px;
-          box-sizing: border-box;
-          position: absolute;
-          transform: rotate(45deg);
-          border-width: 3px 3px 0 0;
-          border-color: var(--bulma);
-          border-style: solid;
-          display: block;
         }
       </style>
   </head>
 
   <body>
     <div class="container-fluid">
-      <p class="h2 font-weight-bold">Bhagyesh Sunil Patel</p>
-      <div class="row mb-0">
+      <div class="row">
         <div class="col-md-4">
+          <p class="mt-1 mb-0"><span class="icon"><i class="fab fa-github-square"></i></span> <a class="bulma-color" href="https://github.com/uzrnem">uzrnem</a></p>
+          <p class="mt-1 mb-0"><span class="icon"><i class="fab fa-linkedin"></i></span> <a class="bulma-color" href="https://linkedin.com/in/uzrnem">uzrnem</a></p>
+        </div>
+        <div class="col-md-4" style="text-align: center;">
+          <p class="h2 font-weight-bold">Bhagyesh Sunil Patel</p>
           <p class="h4 bulma-color">Full Stack Developer</p>
+        </div>
+        <div class="col-md-4" style="text-align: right;">
           <p class="pt-2 m-0">
             <span class="icon"><i class="fas fa-mobile-alt"></i></span>
             <a href="tel:+919604400880" class="bulma-color">96-0440-0880</a>
           </p>
-          <p class="m-0">
-            <span class="icon"><i class="fas fa-mobile-alt"></i></span>
-            <a href="tel:+917709067908" class="bulma-color">77 090 67 908</a>
-          </p>
-          <p class="m-0">
-            <span class="icon"><i class="fas fa-envelope"></i></span>
+          <p class="m-1">
             <a href="mailto:bhagyeshsunilpatel@gmail.com" class="bulma-color">bhagyeshsunilpatel@gmail.com</a>
           </p>
-          <hr />
-
-          <div class="teck-stacks mt-4 text-justify">
-            <p class="bold-boot heading mb-0"><b>Skills</b></p>
-
-            <div class="tech-stack mt-0">
-              <p class="m-0 arrow">
-                Design Patterns, Data Structures and Algorithms.
-              </p>
-            </div>
-          </div>
-          <div class="teck-stacks mt-4 text-justify">
-            <p class="h4-ignore"><b>TECH STACK</b></p>
-
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">Core Technologies</p>
-              <p class="m-0 arrow"><b><i>Java</i></b>, JavaScript, Php and NodeJS.</p>
-            </div>
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">Frameworks</p>
-              <p class="m-0 arrow"><b><i>Spring Boot</i></b>, Bootstrap and AngularJS.</p>
-            </div>
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">Database</p>
-              <p class="m-0 arrow"><b><i>MySQL</i></b>, Postgres, Redis and MongoDB.</p>
-            </div>
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">ORM</p>
-              <p class="m-0 arrow"><b><i>MyBatis</i></b>, Hibernate and JPA.</p>
-            </div>
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">Database Version Tool</p>
-              <p class="m-0 arrow">Phinx.</p>
-            </div>
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">Tools</p>
-              <p class="m-0 arrow">SSH, SCP, Postman, AWS, Maven, Shell script and Chrome Dev Tool.</p>
-            </div>
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">Dev Ops</p>
-              <p class="m-0 arrow"><b><i>Docker</i></b>, Jenkins, Bitbucket and Git.</p>
-            </div>
-            <div class="tech-stack mt-2">
-              <p class="bold-boot mb-0 heading">Server</p>
-              <p class="m-0 arrow">Spring Boot Embedded Server, Nginx.</p>
-            </div>
-          </div>
-
-          <hr />
-          <div class="teck-stacks mt-4 text-justify">
-            <p class="h4-ignore heading">Personal Details</p>
-
-            <p class="mt-2 mb-0"><span class="icon"><i class="fas fa-birthday-cake"></i></span> Sep 10th, 1994</p>
-            <p class="mt-1 mb-0"><span class="icon"><i class="fab fa-github-square"></i></span> <a class="bulma-color" href="https://github.com/uzrnem">github.com/uzrnem</a></p>
-            <p class="mt-1 mb-0"><span class="icon"><i class="fab fa-npm"></i></span> <a class="bulma-color" href="https://npmjs.com/~uzrnem">npmjs.com/~uzrnem</a></p>
-            <p class="mt-1 mb-0"><span class="icon"><i class="fab fa-linkedin"></i></span> <a class="bulma-color" href="https://linkedin.com/in/uzrnem">linkedin.com/in/uzrnem</a></p>
-            <p class="mt-1 mb-0">
-              <span class="icon"><i class="fas fa-desktop"></i></span>
-              <a href="https://devtul.firebaseapp.com" class="bulma-color">devtul.firebaseapp.com</a>
-            </p>
-            <p class="mt-1 mb-0">
-              <span class="icon"><i class="fas fa-desktop"></i></span>
-              <a href="https://nottebukk.firebaseapp.com" class="bulma-color">nottebukk.firebaseapp.com</a>
-            </p>
-            <p class="mt-1 mb-0">
-              <span class="icon"><i class="fas fa-copy"></i></span> Resume
-              <a href="https://github.com/uzrnem/bootstrap-resume" class="bulma-color">source code</a>
-            </p>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <p class="h5 heading mb-0"><b>Professional Summary</b></p>
-          <div>
-            <ol class="mt-2 mb-0 text-justify">
-              <li>
-                Technically advanced <b>Java Backend Developer</b> with <b>4.4+ years</b> of experience in developing
-                user-centric software applications using Java/J2EE, Offering strong expertise
-                in multiple Technologies.</li>
-              <li>Software delivery expert with end-to-end software development life cycle
-                experience consisting of analysis, requirements finalization, design, development, documenting, testing,
-                and release.</li>
-              <li>Proficient in handling, migrating Databases and writing, optimizing SQL queries in ​<b>MySQL​</b>.</li>
-              <li>Experience on building <b>Microservices</b>, REST Services, Web applications along with Database architecture.</li>
-            </ol>
-          </div>
-          <hr />
-
-          <ul class="timeline">
-              <li class="">
-                  <p class="h4-ignore heading pt-2">Experience</p>
-              </li>
-              <li class="event event-triangle">
-                <div class="experience mt-2">
-                  <div class="textbox">
-                    <p class="faint-color small-font mb-0 bold" style="float: left;">Oct 2019 – Present . 1 yr 4 mos</p>
-                    <span class="font-italic small-font" style="float: right;">Software Engineer (Java Backend) - Pune</span>
-                    <div style="clear: both;"></div>
-                  </div>
-                  <p class="h5 bulma-color mb-0 ml-2"><b>Kapstone Cybersecurity Pvt Ltd</b></p>
-                  <p class="mb-0 text-justify ml-2">
-                    Worked with clients on building learner portal for users. Where we integrated various 3rd party online tools.
-                    Webapp helps students and teachers to view progress, time of study and results in various courses from multiple site.
-                    Worked on Backend/API, Handled Database and various microservices.
-                  </p>
-                  <p class="mb-0 text-justify ml-2">
-                    <code class="highlighter-rouge">
-                      <b><i>Java</i></b>, <b><i>Spring Boot</i></b>, <b><i>Microservices</i></b>, Maven, Postgres, AWS, SCP, SSH, Postman.
-                    </code>
-                  </p>
-                </div>
-              </li>
-              <li class="event event-triangle">
-                <div class="experience mt-4">
-                  <div class="textbox">
-                    <p class="faint-color small-font mb-0 bold" style="float: left;">Oct 2016 – Aug 2019 . 3 yrs 11 mos</p>
-                    <span class="font-italic small-font" style="float: right;">Software Engineer (Full Stack) - Bangalore</span>
-                    <div style="clear: both;"></div>
-                  </div>
-                  <p class="h5 bulma-color mb-0 ml-2"><b>Shiplyst Systems Pvt Ltd</b></p>
-                  <p class="mb-0 text-justify ml-2">
-                    Shiplyst is an online marketplace that allows customers to instantly compare and book ocean containers from various vendors.
-                    Shiplyst allows customers and vendors to view and manage order progress.
-                    Handled complete Backend/API and Database architecture and various microservices.
-                  </p>
-                  <p class="mb-0 text-justify ml-2">
-                    <code class="highlighter-rouge">
-                      <b><i>Java</i></b>, Php, <b><i>MySQL</i></b>, <b><i>JavaScript</i></b>, AngularJS,
-                      <b><i>Bootstrap</i></b>, SSH, MongoDB, Redis, NodeJS, Postman, <b><i>Google Dev Console</i></b>.
-                    </code>
-                  </p>
-                </div>
-              </li>
-              <li class="">
-                  <p class="h4-ignore heading pt-2">Academics</p>
-              </li>
-              <li class="event event-triangle">
-                <div class="academic mt-2">
-                  <div class="textbox">
-                    <p class="faint-color small-font mb-0 bold" style="float: left;">2012 – 2016</p>
-                    <span class="font-italic small-font" style="float: right;">North Maharashtra University, Jalgaon</span>
-                    <div style="clear: both;"></div>
-                  </div>
-                  <p class="h5 bulma-color mb-0 ml-2"><b>Bachelor of Engineering</b></p>
-                  <p class="mb-0 text-justify ml-2"><b><i>Information Technology</i></b> from SSBT's College of Engineering and
-                  Technology, Jalgaon with <b><i>7.24 CGPA</i></b>.
-                  </p>
-                </div>
-              </li>
-          </ul>
-          <hr />
-
-          <div class="projects mt-4">
-            <p class="h4-ignore heading">Open Source Contributions</p>
-
-            <div>
-              <ol class="mb-0">
-                <li>
-                  <div class="textbox" style="position: relative;">
-                    <p class="mb-0 bold">Data Validator in Java</p>
-                    <code class="font-italic small-font" style="position: absolute;right: 0;bottom: 0;">[com.github.uzrnem/verify "0.0.2"]</code>
-                    <div style="clear: both;"></div>
-                  </div>
-                  <p class="mb-2 arrow"><span class="bold-boot">Github: </span><a class="bulma-color" href="https://github.com/uzrnem/verify">github.com/uzrnem/verify</a></p>
-                </li>
-                <li>
-                  <div class="textbox" style="position: relative;">
-                    <p class="mb-0 bold">Data Validator in Javascript</p>
-                    <code class="font-italic small-font" style="position: absolute;right: 0;bottom: 0;">npm i smooth-validator</code>
-                    <div style="clear: both;"></div>
-                  </div>
-                  <p class="mb-2 arrow"><span class="bold-boot">NPM: </span><a class="bulma-color" href="https://www.npmjs.com/package/smooth-validator">npmjs.com/package/smooth-validator</a></p>
-                </li>
-                <li>
-                  <div class="textbox" style="position: relative;">
-                    <p class="mb-0 bold">ODM in PHP</p>
-                    <code class="font-italic small-font" style="position: absolute;right: 0;bottom: 0;">composer require denchikby/phalcon-mongodb-odm</code>
-                    <div style="clear: both;"></div>
-                  </div>
-                  <p class="mb-0 arrow"><span class="bold-boot">Github: </span><a class="bulma-color" href="https://github.com/DenchikBY/Phalcon-MongoDB-ODM">github.com/DenchikBY/Phalcon-MongoDB-ODM</a></p>
-                </li>
-              </ol>
-            </div>
-          </div>
         </div>
       </div>
+      <p class="h5 heading mb-0 mt-5"><b>Professional Summary</b></p>
+      <div class="content">
+          <ul class="timeline text-justify">
+              <li>
+                <u>T</u>echnically advanced <b>Java Backend Developer</b> with <b>4.5+ years</b> of in developing
+                user-centric software applications using Java/J2EE, Offering strong expertise
+                in multiple Technologies.
+              </li>
+              <li>
+                <u>P</u>roficient in handling, migrating Databases and writing, optimizing SQL queries in ​<b>MySQL​</b>.
+              </li>
+              <li>
+                <u>E</u>xperience on building <b>Microservices</b>, REST Services, Web applications along with Database architecture.
+              </li>
+          </ul>
+      </div>
+
+      <p class="h5 heading mb-0 mt-4"><b>Technical Skills</b></p>
+      <div class="content">
+          <ul class="timeline text-justify">
+              <li><b>Skills : </b>Design Patterns, Data Structures and Algorithms.</li>
+              <li><b>Core Technologies : </b><b><i>Java</i></b> and JavaScript.</li>
+              <li><b>Frameworks : </b><b><i>Spring Boot</i></b>, </b><b><i>MyBatis</i></b>, Hibernate, JPA, Bootstrap and AngularJS.</li>
+              <li><b>Database : </b><b><i>MySQL</i></b>, Postgres, Redis and MongoDB.</li>
+              <li><b>Tools : </b>SSH, SCP, </b><b><i>Docker</i></b>, Phinx, Postman, AWS, Maven and Chrome Dev Tool.</li>
+          </ul>
+      </div>
+
+      <p class="h5 heading mb-0 mt-4"><b>Experience</b></p>
+      <div class="content">
+          <ul class="timeline text-justify">
+              <li class="mt-2">
+                <div class="textbox" style="position: relative;">
+                  <p class="mb-0 h5 bulma-color bold">Software Engineer - Java Backend</p>
+                  <code class="font-italic" style="position: absolute;right: 0;bottom: 0;">Oct 19 - Present</code>
+                  <div style="clear: both;"></div>
+                </div>
+                <p class="font-italic mb-0">Kapstone Cybersecurity Pvt Ltd, Pune</p>
+                <p class="mb-0">
+                  <u>W</u>orked with clients on building learner portal. Developed various microservices & REST API for different features.
+                  Implemented time-efficient queries for fetching student's results and time on task in various platforms and its courses.
+                  Worked on Database and microservices architecture.
+                </p>
+                <p class="mb-0">
+                  <code class="highlighter-rouge">
+                    <b><i>Java</i></b>, <b><i>Spring Boot</i></b>, <b><i>Microservices</i></b>, Maven, Postgres, AWS, SCP, SSH, Postman.
+                  </code>
+                </p>
+              </li>
+              <li class="mt-3">
+                <div class="textbox" style="position: relative;">
+                  <p class="mb-0 h5 bulma-color bold">Software Engineer - Full Stack</p>
+                  <code class="font-italic" style="position: absolute;right: 0;bottom: 0;">Oct 16 - Aug 19</code>
+                  <div style="clear: both;"></div>
+                </div>
+                <p class="font-italic mb-0">Shiplyst Systems Pvt Ltd, Bangalore</p>
+                <p class="mb-0">
+                  <u>S</u>hiplyst is an online shipping marketplace called Shiplyst. Developed various REST API for different features.
+                  Implemented time-efficient queries for fetching the fastest and cheapest routes for shipment.
+                  Worked on Database architecture, SPA components, and various services.
+                </p>
+                <p class="mb-0">
+                  <code class="highlighter-rouge">
+                    <b><i>Java</i></b>, Php, <b><i>MySQL</i></b>, <b><i>JavaScript</i></b>, AngularJS,
+                    <b><i>Bootstrap</i></b>, SSH, MongoDB, Redis, NodeJS, Postman, <b><i>Google Dev Console</i></b>.
+                  </code>
+                </p>
+              </li>
+          </ul>
+      </div>
+
+      <p class="h5 heading mb-0 mt-4"><b>Academics</b></p>
+      <div class="content">
+          <ul class="timeline text-justify">
+              <li class="mt-2">
+                <div class="textbox" style="position: relative;">
+                  <p class="mb-0 h5 bulma-color bold">Bachelor of Engineering</p>
+                  <code class="font-italic" style="position: absolute;right: 0;bottom: 0;">2012 - 2016</code>
+                  <div style="clear: both;"></div>
+                </div>
+                <p class="font-italic mb-0">North Maharashtra University, Jalgaon</p>
+                <p class="mb-0">
+                  <b><i>Information Technology</i></b> from SSBT's College of Engineering and
+                  Technology, Jalgaon with <b><i>7.24 CGPA</i></b>.
+                </p>
+              </li>
+          </ul>
+      </div>
+
+      <p class="h5 heading mb-0 mt-4"><b>Open Source Contributions</b></p>
+      <div class="content">
+        <ul class="timeline text-justify">
+          <li>
+            <div class="textbox" style="position: relative;">
+              <p class="mb-0 bold">Data Validator in Java</p>
+              <code class="font-italic small-font" style="position: absolute;right: 0;bottom: 0;">[com.github.uzrnem/verify "0.0.2"]</code>
+              <div style="clear: both;"></div>
+            </div>
+            <p class="mb-2"><span class="bold-boot">Github: </span><a class="bulma-color" href="https://github.com/uzrnem/verify">github.com/uzrnem/verify</a></p>
+          </li>
+          <li>
+            <div class="textbox" style="position: relative;">
+              <p class="mb-0 bold">Data Validator in Javascript</p>
+              <code class="font-italic small-font" style="position: absolute;right: 0;bottom: 0;">npm i smooth-validator</code>
+              <div style="clear: both;"></div>
+            </div>
+            <p class="mb-2"><span class="bold-boot">NPM: </span><a class="bulma-color" href="https://www.npmjs.com/package/smooth-validator">npmjs.com/package/smooth-validator</a></p>
+          </li>
+          <li>
+            <div class="textbox" style="position: relative;">
+              <p class="mb-0 bold">ODM in PHP</p>
+              <code class="font-italic small-font" style="position: absolute;right: 0;bottom: 0;">composer require denchikby/phalcon-mongodb-odm</code>
+              <div style="clear: both;"></div>
+            </div>
+            <p class="mb-0"><span class="bold-boot">Github: </span><a class="bulma-color" href="https://github.com/DenchikBY/Phalcon-MongoDB-ODM">github.com/DenchikBY/Phalcon-MongoDB-ODM</a></p>
+          </li>
+        </ul>
+      </div>
+
+      <p class="mt-4 mb-0" style="text-align: center">
+        <a href="https://devtul.firebaseapp.com" class="bulma-color">devtul.firebaseapp.com</a>
+         -
+        <a href="https://nottebukk.firebaseapp.com" class="bulma-color">nottebukk.firebaseapp.com</a>
+      </p>
     </div>
   </body>
 </html>
