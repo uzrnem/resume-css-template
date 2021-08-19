@@ -28,36 +28,67 @@
       transform: translate(1.9em, .9em) rotate(18deg) !important;
     }
     .card-active {
-      background-color: aliceblue;
+      background-color: #b2cde4;
       border: 1px solid #61aaf3;
     }
+    .playingCards .p-card-label {
+      position: absolute;right: 1rem;top: 1rem;
+        padding: 0rem 0.5rem;
+        border: 1px solid #666;
+        border-radius: .3em;
+        -moz-border-radius: .3em;
+        -webkit-border-radius: .3em;
+        -khtml-border-radius: .3em;
+        background-color: #fff;
+        -moz-box-shadow: .2em .2em .5em #333;
+        -webkit-box-shadow: 0.2em 0.2em 0.5em #333;
+        box-shadow: 0.2em 0.2em 0.5em #333;
+    }
+    .playingCards .p-card-label.back {
+      padding: .2rem 0.5rem;
+        height: 1.5rem;
+        width: 3rem;
+        text-indent: -4000px;
+        background-color: #ccc;
+        background-repeat: repeat;
+        background-image: -moz-repeating-linear-gradient(34% 6% 135deg,#335bcc, #333c66, #333c66 50%);
+        background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#335bcc), color-stop(0.4, #333c66), to(#333c66));
+    }
+    .playingCards .p-card-label.diams { color: #f00 !important; }
+    .playingCards .p-card-label.hearts { color: #f00 !important; }
+    .playingCards .p-card-label.spades { color: #000 !important; }
+    .playingCards .p-card-label.clubs { color: #000 !important; }
     </style>
 </head>
 <body>
 
-<div class="playingCards fourColours rotateHand" id="transaction-app">
+<div class="playingCards rotateHand" id="transaction-app">
   <div class="row justify-content-md-center mt-1">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-6" v-for ="n in [3, 0, 1]">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-4" v-for ="n in [3, 0, 1]">
       <div class="card text-center" v-if="players[n]" v-bind:class="[n == (index % 4) ? 'card-active' : '']">
         <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
           <div style=""> {{players[n].name}}
-            <div style="position:absolute; right:0.5rem; top: 0.2rem;" v-if="players[n].title">
-              {{players[n].title}}
+            <div style="position:absolute; right:0.5rem; top: 0.2rem;">
+              <span class="t-bagde text-white" v-if="players[n].cards != null"
+                style="padding: 0rem .5rem;border-radius: .25rem;background-color: #02363e;">
+                {{totalCard(players[n].cards)}}</a>
             </div>
           </div>
         </div>
         <div class="card-body" style="position: relative" v-if="isGameOver == false">
-          <ul class="deck">
-            <li v-for="n in (players[n].cards.clubs.length + players[n].cards.spades.length + players[n].cards.hearts.length + players[n].cards.diams.length)"> <div class="p-card back">*</div> </li>
+          <ul class="deck hand-deck">
+            <li v-for="n in totalCard(players[n].cards)"> <div class="p-card back">*</div> </li>
           </ul>
-          <div class="p-card back" v-if="players[n].card == null" style="position: absolute;right: 1rem;top: 1rem;">*</div>
-          <div class="p-card" v-if="players[n].card != null" :class="players[n].card.getType() + ' rank-' + players[n].card.getNumber()" style="position: absolute;right: 1rem;top: 1rem;">
-              <span class="rank">{{players[n].card.getNumber()}}</span>
-              <span class="suit">{{types[players[n].card.getType()]}}</span>
-          </div>
+          <div class="p-card-label back" v-if="players[n].card == null" ></div>
+          <span class="p-card-label" :class="players[n].card.getType()" v-if="players[n].card != null" >
+            <span class="rank">{{players[n].card.getNumber()}} {{types[players[n].card.getType()]}}</span>
+          </span>
         </div>
         <div class="card-body" style="position: relative" v-if="isGameOver == true">
-          <ul class="hand">
+          <div style="width: 92%; position: absolute;align-content: center;color: rgb(11 28 113);font-size: 2rem;" v-if="players[n].title">
+            {{players[n].title}}
+          </div>
+          <ul class="hand" style="z-index: 5;">
             <template v-for="(numbers, type) in players[n].cards">
               <li v-for="number in numbers">
                   <a class="p-card" :class="type + ' rank-' + symbols[number]">
@@ -105,14 +136,13 @@
         <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
           <div style=""> {{players[playerId].name}}
             <div style="position:absolute; right:0.5rem; top: 0.2rem;">
-              <div v-if="players[playerId].title"> {{players[playerId].title}} </div>
-              <a @click="playerPass()" v-if="playerWaiting == true" class="btn btn-info t-bagde"
-                style="padding: 0rem .5rem;">Pass</a>
+              <a @click="playerPass()" v-if="playerWaiting == true && validatePass(playerId) && !players[playerId].title" class="btn btn-info t-bagde"
+                style="padding: 0rem .5rem;color: #fff !important; background-color: #02363e; border-color: #1c464c;">Pass</a>
             </div>
           </div>
         </div>
         <div class="card-body" style="position: relative">
-          <ul class="hand">
+          <ul class="hand" style="z-index: 5;">
             <template v-for="(numbers, type) in players[playerId].cards">
               <li v-for="number in numbers">
                   <a class="p-card" :class="type + ' rank-' + symbols[number]" @click="playerCard(type, number)" >
@@ -122,17 +152,26 @@
               </li>
             </template>
           </ul>
-          <div class="p-card back" v-if="players[playerId].card == null & isGameOver == false" style="position: absolute;right: 1rem;top: 1rem;">*</div>
-          <div class="p-card" v-if="players[playerId].card != null & isGameOver == false" :class="players[playerId].card.getType() + ' rank-' + players[playerId].card.getNumber()" style="position: absolute;right: 1rem;top: 1rem;">
-              <span class="rank">{{players[playerId].card.getNumber()}}</span>
-              <span class="suit">{{types[players[playerId].card.getType()]}}</span>
+          <div style="position: inherit;align-content: center;color: rgb(11 28 113);font-size: 2rem;"
+            v-if="players[playerId].title">
+            {{players[playerId].title}}
           </div>
+          <div class="p-card-label back" style="=z-index: 1;" v-if="players[playerId].card == null & isGameOver == false" ></div>
+          <a class="p-card-label" :class="players[playerId].card.getType()" style=" z-index: 1;"
+            v-if="players[playerId].card != null & isGameOver == false" >
+            <span class="rank">{{players[playerId].card.getNumber()}} {{types[players[playerId].card.getType()]}}</span>
+          </a>
         </div>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-2">
-      <a @click="stop()" v-if="isStopped == false" class="btn btn-info t-bagde">stop</a>
-      <a @click="resume()" v-if="isStopped == true" class="btn btn-info t-bagde">resume</a>
+  </div>
+  <div class="row justify-content-md-center pt-3 pb-3">
+    <div class="col-lg-2 col-md-2 col-6">
+      <a @click="stop()" v-if="isStopped == false" class="btn btn-warning t-bagde">Stop</a>
+      <a @click="resume()" v-if="isStopped == true" class="btn btn-info t-bagde">Resume</a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-6">
+      <a @click="setupData()" class="btn btn-success t-bagde">Restart</a>
     </div>
   </div>
 
@@ -162,7 +201,7 @@ var Card = (function () {
 var app = new Vue({
   el: '#transaction-app',
   data: {
-    types: { clubs: '♣', spades: '♠', hearts: '♥', diams: '♦' },
+    types: { spades: '♠', hearts: '♥', clubs: '♣', diams: '♦' },
     digits: { 'A': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7,
       '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13 },
     priority: { 'K': 1, 'A': 2, 'Q': 3, '2': 4, 'J': 5, '3': 6, '10': 7,
@@ -170,21 +209,31 @@ var app = new Vue({
     priorityArr: [ 'K', 'A', 'Q', '2', 'J', '3', '10', '4', '9', '5', '8', '6', '7'],
     symbols: [],
     cards: [],
-    playerSet: { cards: {clubs: [], spades: [], hearts: [], diams: [] }, name: null, card: null, title: null },
+    playerSet: { cards: {spades: [], hearts: [], clubs: [], diams: [] }, name: null, card: null, title: null },
     players: [],
-    rows: { clubs: { high: null, low: null}, spades: { high: null, low: null},
-      hearts: { high: null, low: null}, diams: { high: null, low: null} },
+    rows: { spades: { high: null, low: null}, hearts: { high: null, low: null},
+      clubs: { high: null, low: null}, diams: { high: null, low: null} },
     playerId: 2,
     isGameOver: false,
     isStarted: true,
     isStopped: false,
     playerWaiting: false,
-    index: 0
+    index: 0,
+    interval: null
   },
   created() {
       console.debug('Component has been created!');
   },
   methods: {
+    closeIfEndedGame: function(n) {
+      if (this.totalCard(this.players[n].cards) == 0) {
+        this.players[n].title = "Winner";
+        console.debug("Played & Wonned by " + n);
+        this.isGameOver = true;
+        this.index = n;
+        clearInterval(this.interval);
+      }
+    },
     playerCard: function (type, number) {
       console.log(type, number);
       var playerCards = this.players[this.playerId];
@@ -194,12 +243,7 @@ var app = new Vue({
           this.playerWaiting = false;
           var card = this.remove(playerCards, this.playerId, type, number)
           this.players[this.playerId].card = card;
-          if (card != null) {
-            if (this.finishedCard(this.players[this.playerId])) {
-              console.debug("Played & Wonned by " + this.playerId);
-              this.isGameOver = true;
-            }
-          }
+          this.closeIfEndedGame(this.playerId);
           if (this.isStarted == true) {
             this.isStarted = false;
           }
@@ -208,7 +252,8 @@ var app = new Vue({
     },
     playerPass: function () {
       if (this.playerWaiting == true) {
-        if (this.validatePass()) {
+        if (this.validatePass(this.playerId)) {
+          this.players[this.playerId].card = null;
           this.index++;
           this.playerWaiting = false;
         }
@@ -237,8 +282,8 @@ var app = new Vue({
       }
       return false;
     },
-    validatePass: function() {
-      var playerCards = this.players[this.playerId];
+    validatePass: function(n) {
+      var playerCards = this.players[n];
       if (this.isStarted) {
         if (playerCards.cards.hearts.includes(7)) {
           return false;
@@ -265,37 +310,67 @@ var app = new Vue({
           this.players[c % 4].cards[card.getType()].push(this.digits[card.getNumber()]);
       });
       for ( p = 0 ; p < 4 ; p++ ) {
+        var kingCount = 0;
+        for ( const [type, t] of Object.entries(this.types) ) {
+          if (this.players[p].cards[type].includes(13)) {
+            kingCount ++ ;
+          }
+        }
+        if (kingCount == 3) {
+          console.log("Game Fok for " + this.players[p].name);
+          //this.isGameOver = false;
+          this.setupData();
+          return;
+        }
+        if (this.players[p].cards.hearts.includes(7)) {
+          this.index = p;
+          if (p == this.playerId) {
+            this.playerWaiting = true;
+          }
+        }
         console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
-      var x = setInterval(() => {
+      this.interval = setInterval(() => {
         if (this.isStopped == false && this.playerWaiting == false) {
           if (this.isGameOver == false) {
             var p = this.index % 4 ;
             if (p == this.playerId) {
-              this.playerWaiting = true;
             } else {
               var card = this.playCard(this.players[p], p, this.rows);
               console.debug(this.players[p].name, JSON.stringify(card));
               this.players[p].card = card;
               if (card != null) {
-                if (this.finishedCard(this.players[p])) {
-                  console.debug("Played & Wonned by " + p);
-                  this.isGameOver = true;
+                this.closeIfEndedGame(p);
+              }
+              if (this.isGameOver == false) {
+                this.index++;
+                if ([this.index % 4] == this.playerId) {
+                  this.playerWaiting = true;
                 }
               }
-              this.index++;
             }
           } else {
             console.debug("this.isGameOver:", this.isGameOver);
-            clearInterval(x);
+            clearInterval(this.interval);
           }
         }
-      }, 1000);
+      }, 2500);
       for ( p = 0 ; p < 4 ; p++ ) {
         console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
     },
     setupData: function() {
+      this.cards = [];
+      this.players = [];
+      this.rows = { spades: { high: null, low: null}, hearts: { high: null, low: null},
+        clubs: { high: null, low: null}, diams: { high: null, low: null} };
+      this.playerId = 2;
+      this.isGameOver = false;
+      this.isStopped = false;
+      this.playerWaiting = false;
+      this.isStarted = true;
+      this.index = 0;
+
       this.symbols[1] = "A"; this.symbols[2] = "2"; this.symbols[3] = "3";
       this.symbols[4] = "4"; this.symbols[5] = "5"; this.symbols[6] = "6"; this.symbols[7] = "7";
       this.symbols[8] = "8"; this.symbols[9] = "9"; this.symbols[10] = "10"; this.symbols[11] = "J";
@@ -307,23 +382,27 @@ var app = new Vue({
         };
       };
 
-      this.playerSet.name = 'Ziya'
-      var ziya = JSON.parse(JSON.stringify(this.playerSet));
+      this.playerSet.name = 'Jack'
+      var sam = JSON.parse(JSON.stringify(this.playerSet));
 
-      this.playerSet.name = 'Sparsh'
-      var sparsh = JSON.parse(JSON.stringify(this.playerSet));
+      this.playerSet.name = 'Mila'
+      var yash = JSON.parse(JSON.stringify(this.playerSet));
 
-      this.playerSet.name = 'Nandini'
-      var nandini = JSON.parse(JSON.stringify(this.playerSet));
+      this.playerSet.name = 'Yash'
+      var will = JSON.parse(JSON.stringify(this.playerSet));
 
-      this.playerSet.name = 'Git'
+      this.playerSet.name = 'Laura'
       var git = JSON.parse(JSON.stringify(this.playerSet));
-      this.players = [ ziya, sparsh, nandini, git];
+      this.players = [ sam, yash, will, git];
 
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+      this.distributeCards();
     },
-    finishedCard: function(playerCard ) {
-      return playerCard.cards.clubs.length == 0 && playerCard.cards.spades.length == 0 &&
-        playerCard.cards.hearts.length == 0 && playerCard.cards.diams.length == 0;
+    totalCard: function(playerCard ) {
+      return playerCard.clubs.length + playerCard.spades.length +
+        playerCard.hearts.length + playerCard.diams.length;
     },
     remove: function(playerCards, p, type, number) {
       playerCards.cards[type].splice(playerCards.cards[type].indexOf(number), 1);
@@ -449,7 +528,6 @@ var app = new Vue({
   mounted() {
     console.debug('Component has been Mounted!');
     this.setupData();
-    this.distributeCards();
   }
 });
 /*
