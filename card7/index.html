@@ -22,37 +22,39 @@
       transform: translate(1.9em, .9em) rotate(0) !important;
     }
     .playingCards.rotateHand ul.table-card li:nth-child(3) {
-      -moz-transform: translate(1.9em, .9em) rotate(18deg) !important;
-      -webkit-transform: translate(1.9em, .9em) rotate(18deg) !important;
-      -o-transform: translate(1.9em, .9em) rotate(18deg) !important;
-      transform: translate(1.9em, .9em) rotate(18deg) !important;
+      -moz-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
+      -webkit-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
+      -o-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
+      transform: translate(1.9em, 1.3em) rotate(18deg) !important;
     }
     .card-active {
       background-color: #b2cde4;
       border: 1px solid #61aaf3;
     }
     .playingCards .p-card-label {
-      position: absolute;right: 1rem;top: 1rem;
-        padding: 0rem 0.5rem;
-        border: 1px solid #666;
-        border-radius: .3em;
-        -moz-border-radius: .3em;
-        -webkit-border-radius: .3em;
-        -khtml-border-radius: .3em;
-        background-color: #fff;
-        -moz-box-shadow: .2em .2em .5em #333;
-        -webkit-box-shadow: 0.2em 0.2em 0.5em #333;
-        box-shadow: 0.2em 0.2em 0.5em #333;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      width: 3.2rem;
+      padding: 0rem 0.5rem;
+      border: 1px solid #666;
+      border-radius: .3em;
+      -moz-border-radius: .3em;
+      -webkit-border-radius: .3em;
+      -khtml-border-radius: .3em;
+      background-color: #fff;
+      -moz-box-shadow: .2em .2em .5em #333;
+      -webkit-box-shadow: 0.2em 0.2em 0.5em #333;
+      box-shadow: 0.2em 0.2em 0.5em #333;
     }
     .playingCards .p-card-label.back {
       padding: .2rem 0.5rem;
-        height: 1.5rem;
-        width: 3rem;
-        text-indent: -4000px;
-        background-color: #ccc;
-        background-repeat: repeat;
-        background-image: -moz-repeating-linear-gradient(34% 6% 135deg,#335bcc, #333c66, #333c66 50%);
-        background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#335bcc), color-stop(0.4, #333c66), to(#333c66));
+      height: 1.5rem;
+      text-indent: -4000px;
+      background-color: #ccc;
+      background-repeat: repeat;
+      background-image: -moz-repeating-linear-gradient(34% 6% 135deg,#335bcc, #333c66, #333c66 50%);
+      background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#335bcc), color-stop(0.4, #333c66), to(#333c66));
     }
     .playingCards .p-card-label.diams { color: #f00 !important; }
     .playingCards .p-card-label.hearts { color: #f00 !important; }
@@ -73,6 +75,27 @@
       font-weight: 600;
       bottom: 0;
       font-style: italic;
+      z-index: 10;
+    }
+    .game-btn {
+      padding: 0rem .2rem;
+      font-weight: 400;
+      cursor: pointer;
+      border-bottom: solid 2px #02363e;
+      color: #02363e !important;
+    }
+    .game-btn:hover {
+      font-weight: 600;
+      border-bottom: solid 1px #301d40;
+      color: #301d40 !important;
+    }
+    .title-text {
+      width: 92%;
+      position: absolute;
+      align-content: center;
+      color: rgb(11 28 113);
+      bottom: 2;
+      font-size: 2rem;
     }
     </style>
 </head>
@@ -80,73 +103,69 @@
 
 <div class="playingCards rotateHand" id="transaction-app">
   <div class="row justify-content-md-center mt-1">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-4" v-for ="n in [3, 0, 1]">
-      <div v-if="players[n]" v-bind:class="[validCards(n) == totalCard(n) ? 'all-page-sure' : '']">
-        <div class="card text-center" v-bind:class="[n == (index % 4) ? 'card-active' : '']">
-          <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
-            <div style=""> {{players[n].name}}
-              <div style="position:absolute; right:0.5rem; top: 0.2rem;">
-                <span class="t-bagde text-white" v-if="players[n].cards != null"
-                  style="padding: 0rem .5rem;border-radius: .25rem;background-color: #02363e;">
-                  {{totalCard(n)}}</a>
-              </div>
+    <div class="col-lg-2 col-md-2 col-sm-4 col-4" v-for="(m, n) in (totalPlayers - 1)">
+      <div class="card text-center" v-if="players[n]"
+        v-bind:class="getBorderClassForPlayers(n)">
+        <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
+          <div style=""> {{players[n].name}}
+            <div style="position:absolute; right:0.5rem; top: 0rem;">
+              <div class="p-card-label back" v-if="players[n].card == null && isGameOver == false && (n != (index % totalPlayers))" ></div>
+              <span class="p-card-label" :class="players[n].card.getType()" v-if="(isGameOver == false && players[n].card != null && (n != (index % totalPlayers))) || (isGameOver == true && players[n].title) " >
+                <span class="rank">{{players[n].card.toString()}}</span>
+              </span>
             </div>
           </div>
-          <div class="card-body" style="position: relative" v-if="isGameOver == false">
-            <ul class="deck hand-deck">
-              <li v-for="n in totalCard(n)"> <div class="p-card back">*</div> </li>
-            </ul>
-            <div class="p-card-label back" v-if="players[n].card == null" ></div>
-            <span class="p-card-label" :class="players[n].card.getType()" v-if="players[n].card != null" >
-              <span class="rank">{{players[n].card.getNumber()}} {{types[players[n].card.getType()]}}</span>
-            </span>
-            <span class="sure-text" v-if="validCards(n) == totalCard(n)"> Sure </span>
+        </div>
+        <div class="card-body" style="position: relative" v-if="isGameOver == false">
+          <ul class="deck hand-deck">
+            <li v-for="n in totalCard(n)"> <div class="p-card back">*</div> </li>
+          </ul>
+          <span class="sure-text" v-if="validCards(n) == totalCard(n) & isGameOver == false"> Sure </span>
+        </div>
+        <div class="card-body" style="position: relative" v-if="isGameOver == true">
+          <div class="title-text" v-if="players[n].title">
+            {{players[n].title}}
           </div>
-          <div class="card-body" style="position: relative" v-if="isGameOver == true">
-            <div style="width: 92%; position: absolute;align-content: center;color: rgb(11 28 113);font-size: 2rem;" v-if="players[n].title">
-              {{players[n].title}}
-            </div>
-            <ul class="hand" style="z-index: 5;">
-              <template v-for="(numbers, type) in players[n].cards">
-                <li v-for="number in numbers">
-                    <a class="p-card" :class="type + ' rank-' + symbols[number]">
-                        <span class="rank">{{symbols[number]}}</span>
-                        <span class="suit">{{types[type]}}</span>
-                    </a>
-                </li>
-              </template>
-            </ul>
-            <span class="p-card-label" :class="players[n].card.getType()"
-              v-if="players[n].card != null && players[n].title" style="left: 1rem;bottom: 1rem;">
-              <span class="rank">{{players[n].card.getNumber()}} {{types[players[n].card.getType()]}}</span>
-            </span>
-          </div>
+          <ul class="hand" style="z-index: 5;">
+            <template v-for="(numbers, type) in players[n].cards">
+              <li v-for="number in numbers">
+                  <a class="p-card" :class="type + ' rank-' + symbols[number]">
+                      <span class="rank">{{symbols[number]}}</span>
+                      <span class="suit">{{types[type]}}</span>
+                  </a>
+              </li>
+            </template>
+          </ul>
         </div>
       </div>
     </div>
   </div>
   <div class="row justify-content-md-center pt-3">
-    <div class="col-lg-2 col-md-3 col-sm-6 col-6" v-for="(cardSymbol, type) in types">
+    <div class="col-lg-2 col-md-3 col-sm-6 col-6" v-if ="rows.getRows()" v-for="row in rows.getRows()">
       <ul class="hand table-card" style="height: 6em;">
-        <li v-if="rows[type] && rows[type].high != null && rows[type].high != 7">
-          <div class="p-card" :class="type + ' rank-' + symbols[rows[type].high]">
-              <span class="rank">{{symbols[rows[type].high]}}</span>
-              <span class="suit">{{cardSymbol}}</span>
+        <li v-if="row.getHigh().getNumber() != 7">
+          <div class="p-card" :class="row.getType() + ' rank-' + row.getHigh().getNumberSymbol()">
+              <span class="rank">{{row.getHigh().getNumberSymbol()}}</span>
+              <span class="suit">{{row.getHigh().getTypeSymbol()}}</span>
           </div>
         </li>
-        <li v-if="rows[type] && rows[type].high != null">
-          <div class="p-card" :class="type + ' rank-7'">
+        <li>
+          <div class="p-card" :class="row.getType() + ' rank-7'">
               <span class="rank">7</span>
-              <span class="suit">{{cardSymbol}}</span>
+              <span class="suit">{{row.getHigh().getTypeSymbol()}}</span>
           </div>
         </li>
-        <li v-if="rows[type] && rows[type].low != null && rows[type].low != 7">
-          <div class="p-card" :class="type + ' rank-' + symbols[rows[type].low]" >
-              <span class="rank">{{symbols[rows[type].low]}}</span>
-              <span class="suit">{{cardSymbol}}</span>
+        <li v-if="row.getLow().getNumber() != 7">
+          <div class="p-card" :class="row.getType() + ' rank-' + row.getLow().getNumberSymbol()" >
+              <span class="rank">{{row.getLow().getNumberSymbol()}}</span>
+              <span class="suit">{{row.getHigh().getTypeSymbol()}}</span>
           </div>
         </li>
-        <li v-if="rows[type] && rows[type].high == null">
+      </ul>
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-6 col-6" v-if ="rows.getRows().length == 0">
+      <ul class="hand table-card" style="height: 6em;">
+        <li>
           <div class="p-card back">*</div>
         </li>
       </ul>
@@ -154,92 +173,191 @@
   </div>
   <div class="row justify-content-md-center pt-4">
     <div class="col-lg-6 col-md-6 col-sm-6">
-      <div v-if="players[playerId]"
-        v-bind:class="[validCards(playerId) == totalCard(playerId) ? 'all-page-sure' : '']">
-        <div class="card text-center" v-bind:class="[playerId == (index % 4) ? 'card-active' : '']">
-          <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
-            <div style=""> {{players[playerId].name}}
-              <div style="position:absolute; right:0.5rem; top: 0.2rem;">
-                <a @click="playerPass()" v-if="playerWaiting == true && validCards(playerId) == 0 && !players[playerId].title" class="btn btn-info t-bagde"
-                  style="padding: 0rem .5rem;color: #fff !important; background-color: #02363e; border-color: #1c464c;">Pass</a>
-              </div>
+      <div class="card text-center" v-if="players[playerId]"
+        v-bind:class="getBorderClassForPlayers(playerId)">
+        <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
+          <div style=""> {{players[playerId].name}}
+            <a @click="setupData()" class="game-btn ml-5">Restart</a>
+            <a @click="stop()" v-if="isStopped == false" class="game-btn">Stop</a>
+            <a @click="resume()" v-if="isStopped == true" class="game-btn">Resume</a>
+            <div style="position:absolute; right:0.5rem; top: 0.2rem;">
+              <a @click="playerPass()" class="game-btn"
+                v-if="playerWaiting == true && validCards(playerId) == 0 && !players[playerId].title">Pass</a>
+
+              <div class="p-card-label back" style="=z-index: 1;" v-if="playerWaiting == false && players[playerId].card == null & isGameOver == false" ></div>
+              <a class="p-card-label" :class="players[playerId].card.getType()" style=" z-index: 1;"
+                v-if="playerWaiting == false && players[playerId].card != null & isGameOver == false" >
+                <span class="rank">{{players[playerId].card.toString()}}</span>
+              </a>
             </div>
           </div>
-          <div class="card-body" style="position: relative">
-            <ul class="hand" style="z-index: 5;">
-              <template v-for="(numbers, type) in players[playerId].cards">
-                <li v-for="number in numbers">
-                    <a class="p-card" :class="type + ' rank-' + symbols[number]" @click="playerCard(type, number)" >
-                        <span class="rank">{{symbols[number]}}</span>
-                        <span class="suit">{{types[type]}}</span>
-                    </a>
-                </li>
-              </template>
-            </ul>
-            <div style="position: inherit;align-content: center;color: rgb(11 28 113);font-size: 2rem;"
-              v-if="players[playerId].title">
-              {{players[playerId].title}}
-            </div>
-            <span class="sure-text" v-if="validCards(playerId) == totalCard(playerId)"> Sure </span>
-            <div class="p-card-label back" style="=z-index: 1;" v-if="players[playerId].card == null & isGameOver == false" ></div>
-            <a class="p-card-label" :class="players[playerId].card.getType()" style=" z-index: 1;"
-              v-if="players[playerId].card != null & isGameOver == false" >
-              <span class="rank">{{players[playerId].card.getNumber()}} {{types[players[playerId].card.getType()]}}</span>
-            </a>
-          </div>
+        </div>
+        <div class="card-body" style="position: relative">
+          <ul class="hand" style="z-index: 5;">
+            <template v-for="(numbers, type) in players[playerId].cards">
+              <li v-for="number in numbers">
+                  <a class="p-card" :class="type + ' rank-' + symbols[number]" @click="playerCard(type, number)" >
+                      <span class="rank">{{symbols[number]}}</span>
+                      <span class="suit">{{types[type]}}</span>
+                  </a>
+              </li>
+            </template>
+          </ul>
+          <div class="title-text" v-if="players[playerId].title"> {{players[playerId].title}} </div>
+          <span class="sure-text" v-if="validCards(playerId) == totalCard(playerId) & isGameOver == false"> Sure </span>
         </div>
       </div>
     </div>
   </div>
-  <div class="row justify-content-md-center pt-3 pb-3">
-    <div class="col-lg-2 col-md-2 col-6">
-      <a @click="stop()" v-if="isStopped == false" class="btn btn-warning t-bagde">Stop</a>
-      <a @click="resume()" v-if="isStopped == true" class="btn btn-info t-bagde">Resume</a>
-    </div>
-    <div class="col-lg-2 col-md-2 col-6">
-      <a @click="setupData()" class="btn btn-success t-bagde">Restart</a>
-    </div>
-  </div>
-
 </div>
-
 </body>
 
 <script>
-var Card = (function () {
-   function Card(number_c, type_c) {
-       this.digit = number_c;
-       this.type = type_c;
-   }
-   Card.prototype.getNumber = function () {
-       return this.digit;
-   };
-   Card.prototype.getType = function () {
-       return this.type;
-   };
-   Card.prototype.toString = function () {
-       return this.digit + this.type;
-   };
-   return Card;
+var Utils = /** @class */ (function () {
+    function Utils() {
+    }
+    Utils.types = { spades: '♠', hearts: '♥', clubs: '♣', diams: '♦' };
+    Utils.numbers = ["X", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+    Utils.priorities = [13, 1, 12, 2, 11, 3, 10, 4, 9, 5, 8, 6, 7];
+    Utils.getTypes = function () {
+        return Utils.types;
+    };
+    ;
+    Utils.getNumbers = function () {
+        return Utils.numbers;
+    };
+    ;
+    Utils.getPriority = function () {
+        return Utils.priorities;
+    };
+    return Utils;
 }());
-
+var Card = /** @class */ (function () {
+    function Card(type, number) {
+        this.type = type;
+        this.number = number;
+    }
+    Card.prototype.getType = function () {
+        return this.type;
+    };
+    Card.prototype.getNumber = function () {
+        return this.number;
+    };
+    Card.prototype.setNumber = function (number) {
+        this.number = number;
+    };
+    Card.prototype.getTypeSymbol = function () {
+      return Utils.getTypes()[this.type];
+    };
+    Card.prototype.getNumberSymbol = function () {
+      return Utils.getNumbers()[this.number];
+    };
+    Card.prototype.toString = function () {
+        return this.getNumberSymbol() + ' ' + this.getTypeSymbol();
+    };
+    return Card;
+}());
+var Cat = /** @class */ (function () {
+    function Cat() {
+    }
+    Cat.getSingleCat = function () {
+      var cards = [];
+      for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
+        for (loopPointer = 1; loopPointer < 14; loopPointer++) {
+          cards.push( new Card(type, loopPointer));
+        }
+      }
+      cards.sort(() => Math.random() - 0.5 );
+      return cards;
+    };
+    Cat.getDoubleCat = function () {
+      var cards = [];
+      for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
+        for (loopPointer = 1; loopPointer < 14; loopPointer++) {
+          cards.push( new Card(type, loopPointer));
+          cards.push( new Card(type, loopPointer));
+        }
+      }
+      cards.sort(() => Math.random() - 0.5 );
+      return cards;
+    };
+    return Cat;
+}());
+var Line = /** @class */ (function () {
+    function Line(type) {
+        this.type = type;
+        this.high = new Card(type, 7);
+        this.low = new Card(type, 7);
+    }
+    Line.prototype.getType = function () {
+        return this.type;
+    };
+    Line.prototype.setHigh = function (number) {
+        this.high.setNumber(number);
+    };
+    Line.prototype.getHigh = function () {
+        return this.high;
+    };
+    Line.prototype.setLow = function (number) {
+        this.low.setNumber(number);
+    };
+    Line.prototype.getLow = function () {
+        return this.low;
+    };
+    return Line;
+}());
+var Rows = /** @class */ (function () {
+    function Rows() {
+        this.rows = [];
+    }
+    Rows.prototype.getRows = function () {
+        return this.rows;
+    };
+    Rows.prototype.isAllowedCard = function (type, number) {
+      if (number == 7) {
+        return true;
+      }
+      for (loopPointer = 0; loopPointer < this.rows.length; loopPointer++ ) {
+        var row = this.rows[loopPointer];
+        if ( number < 7 && row.getType() == type && number == (row.getLow().getNumber() - 1 ) ) {
+          return true;
+        }
+        if ( number > 7 && row.getType() == type && number == (row.getHigh().getNumber() + 1 ) ) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Rows.prototype.addCard = function (type, number) {
+      if (number == 7) {
+        return this.rows.push(new Line(type));
+      }
+      console.log(type, number)
+      for (loopPointer = 0; loopPointer < this.rows.length; loopPointer++ ) {
+        var row = this.rows[loopPointer];
+        if ( number < 7 && row.getType() == type && number == (row.getLow().getNumber() - 1 ) ) {
+          return row.setLow(number);
+        }
+        if ( number > 7 && row.getType() == type && number == (row.getHigh().getNumber() + 1 ) ) {
+          return row.setHigh(number);
+        }
+      }
+    };
+    return Rows;
+}());
 
 var app = new Vue({
   el: '#transaction-app',
   data: {
     types: { spades: '♠', hearts: '♥', clubs: '♣', diams: '♦' },
-    digits: { 'A': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7,
-      '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13 },
-    priority: { 'K': 1, 'A': 2, 'Q': 3, '2': 4, 'J': 5, '3': 6, '10': 7,
-      '4': 8, '9': 9, '5': 10, '8': 11, '6': 12, '7': 13 },
-    priorityArr: [ 'K', 'A', 'Q', '2', 'J', '3', '10', '4', '9', '5', '8', '6', '7'],
     symbols: ["X", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
+    names: ["Jack", "Tony", "Loki", "Mila", "Cris", "Laura", "Ved"],
     cards: [],
     playerSet: { cards: {spades: [], hearts: [], clubs: [], diams: [] }, name: null, card: null, title: null },
     players: [],
-    rows: { spades: { high: null, low: null}, hearts: { high: null, low: null},
-      clubs: { high: null, low: null}, diams: { high: null, low: null} },
-    playerId: 2,
+    rows: new Rows(),
+    totalPlayers: 4,
+    playerId: 0,
     isGameOver: false,
     isStarted: true,
     isStopped: false,
@@ -248,19 +366,23 @@ var app = new Vue({
     interval: null
   },
   created() {
-      console.debug('Component has been created!');
+      console.log('Component has been created!');
   },
   methods: {
     playerCard: function (type, number) {
-      console.debug(type, number);
+      console.log(type, number);
       var playerCards = this.players[this.playerId];
       if (this.playerWaiting == true) {
+        console.log(369, type, number);
         if (this.validate(this.playerId, type, number)) {
+          console.log(372, type, number);
           this.index++;
           this.playerWaiting = false;
           var card = this.remove(this.playerId, type, number)
           this.players[this.playerId].card = card;
+            console.log(376, type, number);
           this.closeIfEndedGame(this.playerId);
+            console.log(378, type, number);
           if (this.isStarted == true) {
             this.isStarted = false;
           }
@@ -276,41 +398,58 @@ var app = new Vue({
         }
       }
     },
-    distributeCards: function () {
-      this.cards = this.cards.sort(function () { return Math.random() - 0.5; });
-
-      this.cards.forEach( (card, c) => {
-          this.players[c % 4].cards[card.getType()].push(this.digits[card.getNumber()]);
-      });
-      for ( p = 0 ; p < 4 ; p++ ) {
-        var kingCount = 0;
-        for ( const [type, t] of Object.entries(this.types) ) {
-          if (this.players[p].cards[type].includes(13)) {
-            kingCount ++ ;
-          }
-        }
-        if (kingCount == 3) {
-          console.debug("Game Fok for " + this.players[p].name);
-          //this.isGameOver = false;
-          this.setupData();
-          return;
-        }
-        if (this.players[p].cards.hearts.includes(7)) {
-          this.index = p;
-          if (p == this.playerId) {
-            this.playerWaiting = true;
-          }
-        }
-        console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
+    totalCard: function(n) {
+      var playerCard = this.players[n].cards;
+      return playerCard.clubs.length + playerCard.spades.length +
+        playerCard.hearts.length + playerCard.diams.length;
+    },
+    stop: function () {
+      this.isStopped = true;
+      for ( p = 0 ; p < this.totalPlayers ; p++ ) {
+        console.log("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
+      console.log(JSON.stringify(this.rows))
+    },
+    resume: function () {
+      this.isStopped = false;
+    },
+    closeIfEndedGame: function(n) {
+      if (this.totalCard(n) == 0) {
+        this.players[n].title = "Winner";
+        console.log("Played & Wonned by " + n);
+        this.isGameOver = true;
+        this.index = n;
+        clearInterval(this.interval);
+      }
+    },
+    getBorderClassForPlayers: function(playerId) {
+      var sure = (this.validCards(playerId) == this.totalCard(playerId) & this.isGameOver == false);
+      var active = (playerId == (this.index % this.totalPlayers));
+      console.log("getBorderClassForPlayers", playerId, active , this.index, this.totalPlayers);
+      if (sure & active) {
+        return 'all-page-sure card-active'
+      } else if (sure) {
+        return 'all-page-sure'
+      } else if (active) {
+        return 'card-active'
+      }
+    },
+    startGame: function () {
       this.interval = setInterval(() => {
         if (this.isStopped == false && this.playerWaiting == false) {
           if (this.isGameOver == false) {
-            var p = this.index % 4 ;
-            if (p == this.playerId) {
+            var p = this.index % this.totalPlayers ;
+            if (p == this.playerId) { /*
+            } else if (p != this.playerId) {
+              console.log(437, p, this.index,  this.totalPlayers)
+              this.index++;
+              if ([this.index % this.totalPlayers] == this.playerId) {
+                this.playerWaiting = true;
+              } */
             } else {
               var card = this.playCard(p);
-              console.debug(this.players[p].name, JSON.stringify(card));
+              console.log(this.players[p].name, JSON.stringify(this.rows));
+              //console.log(this.players[p].name, card.toString());
               this.players[p].card = card;
               if (card != null) {
                 this.closeIfEndedGame(p);
@@ -323,52 +462,72 @@ var app = new Vue({
               }
             }
           } else {
-            console.debug("this.isGameOver:", this.isGameOver);
+            console.log("this.isGameOver:", this.isGameOver);
             clearInterval(this.interval);
           }
         }
       }, 2500);
-      for ( p = 0 ; p < 4 ; p++ ) {
-        console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
+      for ( p = 0 ; p < this.totalPlayers ; p++ ) {
+        console.log("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
     },
     setupData: function() {
       this.cards = [];
       this.players = [];
-      this.rows = { spades: { high: null, low: null}, hearts: { high: null, low: null},
-        clubs: { high: null, low: null}, diams: { high: null, low: null} };
-      this.playerId = 2;
+      this.rows = new Rows();
+      this.playerId = this.totalPlayers - 1;
+      console.log('setupData',  this.playerId, this.totalPlayers)
       this.isGameOver = false;
       this.isStopped = false;
       this.playerWaiting = false;
       this.isStarted = true;
       this.index = 0;
 
-      for ( const [type, t] of Object.entries(this.types) ) {
-        for ( const [digit, d] of Object.entries(this.digits) ) {
-          this.cards.push(new Card(digit, type));
-        };
-      };
-
-      this.playerSet.name = 'Jack'
-      var sam = JSON.parse(JSON.stringify(this.playerSet));
-
-      this.playerSet.name = 'Mila'
-      var yash = JSON.parse(JSON.stringify(this.playerSet));
-
-      this.playerSet.name = 'Yash'
-      var will = JSON.parse(JSON.stringify(this.playerSet));
-
-      this.playerSet.name = 'Laura'
-      var git = JSON.parse(JSON.stringify(this.playerSet));
-      this.players = [ sam, yash, will, git];
+      this.players = [];
+      this.names.sort( () => Math.random() - 0.5 );
+      for ( c= 0; c < this.totalPlayers; c++ ) {
+          this.playerSet.name = this.names[c];
+          var sam = JSON.parse(JSON.stringify(this.playerSet));
+          this.players.push(sam);
+      }
+      Cat.getDoubleCat().forEach( (card, c) => {
+        this.players[c % this.totalPlayers].cards[card.getType()].push(card.getNumber());
+      });
+      for ( p = 0 ; p < this.totalPlayers ; p++ ) {
+        console.log(p, 483)
+        var kingCount = 0;
+        for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
+          this.players[p].cards[type].sort( (a, b) => a-b );
+          if (this.players[p].cards[type].includes(13)) {
+            kingCount ++ ;
+          }
+        }
+        if (kingCount == 3) {
+          console.warn("Game Fok for " + this.players[p].name);
+          //this.isGameOver = false;
+          this.setupData();
+          return;
+        }
+        console.log(497, this.players[p].name , this.players[p].cards.hearts, this.players[p].cards.hearts.includes(7))
+        if (this.players[p].cards.hearts.includes(7)) {
+          //this.remove( p, 'hearts', 7);
+          this.index = p ;
+          if (this.index == this.playerId) {
+            this.playerWaiting = true;
+          }
+        }
+        console.log("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
+      }
 
       if (this.interval) {
         clearInterval(this.interval);
       }
-      this.distributeCards();
+      this.startGame();
     },
     playCard: function(p) {
+      if (this.validCards(p) == 0) {
+        return null;
+      }
       var playerCards = this.players[p];
       if (this.isStarted) {
         if (playerCards.cards.hearts.includes(7)) {
@@ -380,53 +539,49 @@ var app = new Vue({
       }
       var diff = 0;
       var pickCard = null;
-      console.debug('Core Login name: ', playerCards.name);
-      for (i = 0; i < this.priorityArr.length; i ++) {
-        var pSymbol = this.priorityArr [i];
-        var pNumber = this.priority[pSymbol];
-        for ( const [type, t] of Object.entries(this.types) ) {
-          var cardNo = this.digits[pSymbol];
-          if (playerCards.cards[type].includes(cardNo)) {
-            if (cardNo < 8) {
-              for ( chanceNo = 7 ; chanceNo > cardNo ; chanceNo-- ) {
-                if (this.rows[type].low != null && playerCards.cards[type].includes( chanceNo ) &&
-                  (this.rows[type].low - 1) == chanceNo
-                ) {
-                  console.debug('229', diff, chanceNo - cardNo);
-                  if ( diff == 0 || (chanceNo - cardNo) > diff) {
-                    diff = chanceNo - cardNo;
-                    pickCard = new Card(this.symbols[this.rows[type].low - 1], type);
-                    console.debug(diff, pickCard);
+      console.log('Core Logic name: ', playerCards.name, ", cards: ", JSON.stringify(playerCards.cards));
+      var priority = Utils.getPriority();
+
+      for (i = 0; i < priority.length; i ++) {
+        var priorityCardNo = priority [i];
+        for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
+          if (playerCards.cards[type].includes(priorityCardNo)) {
+            if (priorityCardNo < 8) { //Logic for lower cards
+              for ( chanceNo = 7 ; chanceNo > priorityCardNo ; chanceNo-- ) { //It will go from 7 till priority
+                if (this.rows.isAllowedCard(type, chanceNo) &&  playerCards.cards[type].includes(chanceNo) ) {
+                  console.log('229', diff, chanceNo - priorityCardNo);
+                  if ( diff == 0 || (chanceNo - priorityCardNo) > diff) {
+                    diff = chanceNo - priorityCardNo;
+                    pickCard = new Card(type, chanceNo);
+                    console.log(diff, pickCard);
                   }
                 }
                 if (chanceNo == 7 &&  playerCards.cards[type].includes(7)) {
-                  console.debug('237', diff, chanceNo - cardNo);
-                  if ( diff == 0 || (chanceNo - cardNo) > diff) {
-                    diff = chanceNo - cardNo;
-                    pickCard = new Card(7, type);
-                    console.debug(diff, pickCard);
+                  console.log('237', diff, chanceNo - priorityCardNo);
+                  if ( diff == 0 || (chanceNo - priorityCardNo) > diff) {
+                    diff = chanceNo - priorityCardNo;
+                    pickCard = new Card(type, 7);
+                    console.log(diff, pickCard);
                   }
                 }
               }
             }
-            if (cardNo > 6) {
-              for ( chanceNo = 7 ; chanceNo < cardNo ; chanceNo++ ) {
-                if (this.rows[type].high != null && playerCards.cards[type].includes( chanceNo ) &&
-                  (this.rows[type].high + 1) == chanceNo
-                ) {
-                  console.debug('251', diff, cardNo - chanceNo);
-                  if ( diff == 0 || (cardNo - chanceNo) > diff) {
-                    diff = cardNo - chanceNo;
-                    pickCard = new Card(this.symbols[this.rows[type].high + 1], type);
-                    console.debug(diff, pickCard);
+            if (priorityCardNo > 6) {
+              for ( chanceNo = 7 ; chanceNo < priorityCardNo ; chanceNo++ ) {
+                if (this.rows.isAllowedCard(type, chanceNo) &&  playerCards.cards[type].includes(chanceNo)  ) {
+                  console.log('251', diff, priorityCardNo - chanceNo);
+                  if ( diff == 0 || (priorityCardNo - chanceNo) > diff) {
+                    diff = priorityCardNo - chanceNo;
+                    pickCard = new Card(type, chanceNo);
+                    console.log(diff, pickCard);
                   }
                 }
-                if (chanceNo == 7 &&  playerCards.cards[type].includes(7)) {
-                  console.debug('259', diff, cardNo - chanceNo);
-                  if ( diff == 0 || (cardNo - chanceNo) > diff) {
-                    diff = cardNo - chanceNo;
-                    pickCard = new Card(7, type);
-                    console.debug(diff, pickCard);
+                if (chanceNo == 7 && playerCards.cards[type].includes(7)) {
+                  console.log('259', diff, priorityCardNo - chanceNo);
+                  if ( diff == 0 || (priorityCardNo - chanceNo) > diff) {
+                    diff = priorityCardNo - chanceNo;
+                    pickCard = new Card(type, 7);
+                    console.log(diff, pickCard);
                   }
                 }
               }
@@ -434,58 +589,35 @@ var app = new Vue({
           }
         }
       };
-      console.debug('271', diff, pickCard);
+      console.log('271', diff, pickCard);
       if (diff > 0) {
-        return this.remove( p, pickCard.getType(), this.digits[pickCard.getNumber()] );
+        return this.remove( p, pickCard.getType(), pickCard.getNumber() );
       }
-      console.debug('throws big name: ', playerCards.name, this.priority, this.priorityArr);
+      console.log('throws based on priority for : ', playerCards.name);
       //throws none option
-      for (i = 0; i < this.priorityArr.length; i ++) {
-        var pSymbol = this.priorityArr [i];
-        var pNumber = this.priority[pSymbol];
-        var cardNo = this.digits[pSymbol];
-        console.debug("cardNo: ", cardNo , ", pSymbol: ", pSymbol,  ", pNumber: ")
-        for ( const [type, t] of Object.entries(this.types) ) {
-          if (playerCards.cards[type].includes(cardNo)) {
-            if (cardNo < 7 && this.rows[type].low != null && (this.rows[type].low - 1) == cardNo ) {
-              return this.remove( p, type, this.rows[type].low - 1 );
-            }
-            if (cardNo > 7 && this.rows[type].high != null && (this.rows[type].high + 1) == cardNo ) {
-              return this.remove( p, type, this.rows[type].high + 1 );
+      for (i = 0; i < priority.length; i ++) {
+        var priorityCardNo = priority [i];
+        for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
+          if (playerCards.cards[type].includes(priorityCardNo)) {
+            if ( this.rows.isAllowedCard(type, priorityCardNo) ) {
+              return this.remove( p, type, priorityCardNo );
             }
           }
         }
       };
-      console.debug('whichever name: ', playerCards.name);
-      for ( const [type, t] of Object.entries(this.types) ) {
-        if (this.rows[type].high == null && playerCards.cards[type].includes(7)) {
-          return this.remove( p, type, 7);
-        } else if (this.rows[type].high != null && playerCards.cards[type].includes( this.rows[type].high + 1 )) {
-          return this.remove( p, type, this.rows[type].high + 1 );
-        }
-        if (this.rows[type].low != null && playerCards.cards[type].includes( this.rows[type].low - 1 )) {
-          return this.remove( p, type, this.rows[type].low - 1 );
-        }
-      }
       return null;
     }
     // Well Written Functions
     ,
-    totalCard: function(n) {
-      var playerCard = this.players[n].cards;
-      return playerCard.clubs.length + playerCard.spades.length +
-        playerCard.hearts.length + playerCard.diams.length;
-    },
     remove: function( p, type, number) {
       var playerCards = this.players[p];
+      console.log('berefore playerCards name : ', playerCards.name, ", cards: ", JSON.stringify(playerCards.cards[type]));
       playerCards.cards[type].splice(playerCards.cards[type].indexOf(number), 1);
-      if (number > 6) {
-        this.rows[type].high = number;
-      }
-      if (number < 8) {
-        this.rows[type].low = number;
-      }
-      return new Card(this.symbols[number], type);
+      console.log('after playerCards name : ', playerCards.name, ", cards: ", JSON.stringify(playerCards.cards[type]));
+      console.log(' before playerCards rows : ', JSON.stringify(this.rows));
+      this.rows.addCard(type, number);
+      console.log(' after playerCards rows : ', JSON.stringify(this.rows));
+      return new Card(type, number);
     },
     validate: function(p, type, number) {
       var playerCards = this.players[p];
@@ -493,27 +625,13 @@ var app = new Vue({
         return false;
       }
       if (this.isStarted) {
-        if (type == 'hearts' && number == 7) {
-          return true;
-        } else {
-          return false;
-        }
+        return (type == 'hearts' && number == 7);
       }
-      console.debug(JSON.stringify(this.rows[type]))
-      console.debug("p:", p, "type:", type, "number:", number)
+      console.log(JSON.stringify(this.rows))
+      console.log("p:", p, ", type:", type, ", number:", number)
 
-      console.debug("509 high: ", this.rows[type].high , ", number:", number)
-      console.debug("510 low: ", this.rows[type].low , ", number:", number)
-      if (this.rows[type].high == null && number == 7) {
-        return true;
-      } else if (this.rows[type].high != null && (this.rows[type].high + 1) == number) {
-        console.debug("high: ", this.rows[type].high , ", number:", number)
-        console.debug("equation: ", ((this.rows[type].high + 1) == number))
-        return true;
-      }
-      if (this.rows[type].low != null && ( this.rows[type].low - 1 ) == number) {
-        console.debug("low: ", this.rows[type].low , ", number:", number)
-        console.debug("equation: ", (( this.rows[type].low - 1 ) == number))
+      if ( this.rows.isAllowedCard(type, number) ) {
+        console.log("611: allowed card, number:", number, ", type:", type)
         return true;
       }
       return false;
@@ -521,57 +639,26 @@ var app = new Vue({
     validCards: function(n) {
       var playerCards = this.players[n];
       if (this.isStarted) {
-        if (playerCards.cards.hearts.includes(7)) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return (playerCards.cards.hearts.includes(7)) ? 1 : 0;
       }
       var availableCards = 0;
-      for ( const [type, t] of Object.entries(this.types) ) {
-        if (this.rows[type].high == null && playerCards.cards[type].includes(7)) {
-          availableCards++;
-        } else if (this.rows[type].high != null && playerCards.cards[type].includes( this.rows[type].high + 1 )) {
-          availableCards++;
-        }
-        if (this.rows[type].low != null && playerCards.cards[type].includes( this.rows[type].low - 1 )) {
-          availableCards++;
+        console.debug(632, Utils.getTypes())
+      for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
+        for ( index = 0 ; index < playerCards.cards[type].length ; index++ ) {
+          console.debug("t: ", t, ", type: ", type, ", index: ", playerCards.cards[type][index],
+            this.rows.isAllowedCard( type, playerCards.cards[type][index] ));
+          if (this.rows.isAllowedCard( type, playerCards.cards[type][index] )) {
+            availableCards++;
+          }
         }
       }
       return availableCards;
-    },
-    stop: function () {
-      this.isStopped = true;
-      for ( p = 0 ; p < 4 ; p++ ) {
-        console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
-      }
-      console.debug(JSON.stringify(this.rows))
-    },
-    resume: function () {
-      this.isStopped = false;
-    },
-    closeIfEndedGame: function(n) {
-      if (this.totalCard(n) == 0) {
-        this.players[n].title = "Winner";
-        console.debug("Played & Wonned by " + n);
-        this.isGameOver = true;
-        this.index = n;
-        clearInterval(this.interval);
-      }
     }
   },
   mounted() {
-    console.debug('Component has been Mounted!');
+    console.log('Component has been Mounted!');
     this.setupData();
   }
 });
-/*
- * Example HTML for CSS Playing Cards
- *
- * @author   Anika Henke <anika@selfthinker.org>
- * @license  CC BY-SA [http://creativecommons.org/licenses/by-sa/3.0]
- * @version  2011-06-14
- * @link     https://github.com/selfthinker/CSS-Playing-Cards/
- */
 </script>
 </html>
