@@ -104,9 +104,9 @@
           <ul class="hand" style="z-index: 5;">
             <template v-for="(numbers, type) in players[n].cards">
               <li v-for="number in numbers">
-                  <a class="p-card" :class="type + ' rank-' + symbols[number]">
-                      <span class="rank">{{symbols[number]}}</span>
-                      <span class="suit">{{types[type]}}</span>
+                  <a class="p-card" :class="type + ' rank-' + getNumberSymbol(number)">
+                      <span class="rank">{{getNumberSymbol(number)}}</span>
+                      <span class="suit">{{getTypeSymbol(type)}}</span>
                   </a>
               </li>
             </template>
@@ -172,9 +172,9 @@
           <ul class="hand" style="z-index: 5;">
             <template v-for="(numbers, type) in players[playerId].cards">
               <li v-for="number in numbers">
-                  <a class="p-card" :class="type + ' rank-' + symbols[number]" @click="playerCard(type, number)" >
-                      <span class="rank">{{symbols[number]}}</span>
-                      <span class="suit">{{types[type]}}</span>
+                  <a class="p-card" :class="type + ' rank-' + getNumberSymbol(number)" @click="playerCard(type, number)" >
+                      <span class="rank">{{getNumberSymbol(number)}}</span>
+                      <span class="suit">{{getTypeSymbol(type)}}</span>
                   </a>
               </li>
             </template>
@@ -292,8 +292,6 @@ var Rows = /** @class */ (function () {
 var app = new Vue({
   el: '#transaction-app',
   data: {
-    types: { spades: '♠', hearts: '♥', clubs: '♣', diams: '♦' },
-    symbols: ["X", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
     names: ["Jack", "Tony", "Loki", "Mila", "Cris", "Laura", "Ved"],
     cards: [],
     playerSet: { cards: {spades: [], hearts: [], clubs: [], diams: [] }, name: null, card: null, title: null },
@@ -315,6 +313,12 @@ var app = new Vue({
       console.debug('Component has been created!');
   },
   methods: {
+    getTypeSymbol: function (type) {
+      return Utils.getTypes()[type];
+    },
+    getNumberSymbol: function (number) {
+      return Utils.getNumbers()[number];
+    },
     playerCard: function (type, number) {
       console.debug(type, number);
       var playerCards = this.players[this.playerId];
