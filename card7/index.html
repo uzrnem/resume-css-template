@@ -3,63 +3,15 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>CSS Playing Cards</title>
-    <link rel="stylesheet" type="text/css" href="./css/cards.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="./css/cards.css" />
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
     <script src="./js/vue-2.6.12.js"></script>
     <style>
     .card-body {padding: 0 0.5rem;}
-    .playingCards ul.deck, .playingCards ul.hand { margin: 0 0 0.5rem 0;}
-    .playingCards.rotateHand ul.table-card li:nth-child(1) {
-      -moz-transform: translate(1.9em, .9em) rotate(-18deg) !important;
-      -webkit-transform: translate(1.9em, .9em) rotate(-18deg) !important;
-      -o-transform: translate(1.9em, .9em) rotate(-18deg) !important;
-      transform: translate(1.9em, .9em) rotate(-18deg) !important;
-    }
-    .playingCards.rotateHand ul.table-card li:nth-child(2) {
-      -moz-transform: translate(1.9em, .9em) rotate(0) !important;
-      -webkit-transform: translate(1.9em, .9em) rotate(0) !important;
-      -o-transform: translate(1.9em, .9em) rotate(0) !important;
-      transform: translate(1.9em, .9em) rotate(0) !important;
-    }
-    .playingCards.rotateHand ul.table-card li:nth-child(3) {
-      -moz-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
-      -webkit-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
-      -o-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
-      transform: translate(1.9em, 1.3em) rotate(18deg) !important;
-    }
     .card-active {
       background-color: #b2cde4;
       border: 1px solid #61aaf3;
     }
-    .playingCards .p-card-label {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      width: 3.2rem;
-      padding: 0rem 0.5rem;
-      border: 1px solid #666;
-      border-radius: .3em;
-      -moz-border-radius: .3em;
-      -webkit-border-radius: .3em;
-      -khtml-border-radius: .3em;
-      background-color: #fff;
-      -moz-box-shadow: .2em .2em .5em #333;
-      -webkit-box-shadow: 0.2em 0.2em 0.5em #333;
-      box-shadow: 0.2em 0.2em 0.5em #333;
-    }
-    .playingCards .p-card-label.back {
-      padding: .2rem 0.5rem;
-      height: 1.5rem;
-      text-indent: -4000px;
-      background-color: #ccc;
-      background-repeat: repeat;
-      background-image: -moz-repeating-linear-gradient(34% 6% 135deg,#335bcc, #333c66, #333c66 50%);
-      background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#335bcc), color-stop(0.4, #333c66), to(#333c66));
-    }
-    .playingCards .p-card-label.diams { color: #f00 !important; }
-    .playingCards .p-card-label.hearts { color: #f00 !important; }
-    .playingCards .p-card-label.spades { color: #000 !important; }
-    .playingCards .p-card-label.clubs { color: #000 !important; }
     .all-page-sure {
       border: solid 1px #301d40;
       -moz-box-shadow: .2em .2em .5em #3f1461;
@@ -103,6 +55,29 @@
 
 <div class="playingCards rotateHand" id="transaction-app">
   <div class="row justify-content-md-center mt-1">
+    <div class="form-group col-lg-4 col-md-5 col-sm-12 col-12 mb-0">
+      <form class="form-inline mb-1">
+        <div class="form-group ml-3">
+          <label for="email">Players:</label>
+          <select id="email" class="form-control" v-model="countPlayers">
+            <template v-for="n in 4">
+              <option v-bind:value="(n + 3)">{{(n + 3)}}</option>
+            </template>
+          </select>
+        </div>
+        <div class="form-group ml-3">
+          <label for="pwd">Cats:</label>
+          <select id="pwd" class="form-control" v-model="totalCats">
+            <template v-for="n in 3">
+              <option v-bind:value="n">{{n}}</option>
+            </template>
+          </select>
+        </div>
+        <a @click="setupData()" class="game-btn form-group ml-3 mr-3" style="display: inline;">Start</a>
+      </form>
+    </div>
+  </div>
+  <div class="row justify-content-md-center mt-1 pl-2 pr-2">
     <div class="col-lg-2 col-md-2 col-sm-4 col-4" v-for="(m, n) in (totalPlayers - 1)">
       <div class="card text-center" v-if="players[n]"
         v-bind:class="getBorderClassForPlayers(n)">
@@ -142,7 +117,8 @@
   </div>
   <div class="row justify-content-md-center pt-3">
     <div class="col-lg-2 col-md-3 col-sm-6 col-6" v-if ="rows.getRows()" v-for="row in rows.getRows()">
-      <ul class="hand table-card" style="height: 6em;">
+      <ul class="hand " style="height: 6em;"
+        v-bind:class="[ row.getHigh().getNumber() == 13 && row.getLow().getNumber() == 1 ? 'closed-table-card' : 'table-card']">
         <li v-if="row.getHigh().getNumber() != 7">
           <div class="p-card" :class="row.getType() + ' rank-' + row.getHigh().getNumberSymbol()">
               <span class="rank">{{row.getHigh().getNumberSymbol()}}</span>
@@ -156,14 +132,14 @@
           </div>
         </li>
         <li v-if="row.getLow().getNumber() != 7">
-          <div class="p-card" :class="row.getType() + ' rank-' + row.getLow().getNumberSymbol()" >
+          <div class="p-card" :class="row.getType() + ' rank-' + row.getLow().getNumberSymbol()">
               <span class="rank">{{row.getLow().getNumberSymbol()}}</span>
               <span class="suit">{{row.getHigh().getTypeSymbol()}}</span>
           </div>
         </li>
       </ul>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-6 col-6" v-if ="rows.getRows().length == 0">
+    <div class="col-lg-2 col-md-3 col-sm-6 col-6" v-for="(m, n) in (4 - (rows.getRows().length < 4 ? rows.getRows().length : 4) )">
       <ul class="hand table-card" style="height: 6em;">
         <li>
           <div class="p-card back">*</div>
@@ -178,7 +154,7 @@
         <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
           <div style=""> {{players[playerId].name}}
             <a @click="setupData()" class="game-btn ml-5">Restart</a>
-            <a @click="stop()" v-if="isStopped == false" class="game-btn">Stop</a>
+            <a @click="stop()" v-if="isStopped == false" class="game-btn">Pause</a>
             <a @click="resume()" v-if="isStopped == true" class="game-btn">Resume</a>
             <div style="position:absolute; right:0.5rem; top: 0.2rem;">
               <a @click="playerPass()" class="game-btn"
@@ -209,6 +185,7 @@
       </div>
     </div>
   </div>
+
 </div>
 </body>
 
@@ -229,6 +206,18 @@ var Utils = /** @class */ (function () {
     ;
     Utils.getPriority = function () {
         return Utils.priorities;
+    };
+    Utils.getCat = function (size) {
+      var cards = [];
+      for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
+        for (loopPointer = 1; loopPointer < 14; loopPointer++) {
+          for (secondLoopPointer = 0; secondLoopPointer < size; secondLoopPointer ++ ) {
+            cards.push( { type: type, number: loopPointer} );
+          }
+        }
+      }
+      cards.sort(() => Math.random() - 0.5 );
+      return cards;
     };
     return Utils;
 }());
@@ -256,32 +245,6 @@ var Card = /** @class */ (function () {
         return this.getNumberSymbol() + ' ' + this.getTypeSymbol();
     };
     return Card;
-}());
-var Cat = /** @class */ (function () {
-    function Cat() {
-    }
-    Cat.getSingleCat = function () {
-      var cards = [];
-      for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
-        for (loopPointer = 1; loopPointer < 14; loopPointer++) {
-          cards.push( new Card(type, loopPointer));
-        }
-      }
-      cards.sort(() => Math.random() - 0.5 );
-      return cards;
-    };
-    Cat.getDoubleCat = function () {
-      var cards = [];
-      for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
-        for (loopPointer = 1; loopPointer < 14; loopPointer++) {
-          cards.push( new Card(type, loopPointer));
-          cards.push( new Card(type, loopPointer));
-        }
-      }
-      cards.sort(() => Math.random() - 0.5 );
-      return cards;
-    };
-    return Cat;
 }());
 var Line = /** @class */ (function () {
     function Line(type) {
@@ -319,11 +282,13 @@ var Rows = /** @class */ (function () {
       }
       for (loopPointer = 0; loopPointer < this.rows.length; loopPointer++ ) {
         var row = this.rows[loopPointer];
-        if ( number < 7 && row.getType() == type && number == (row.getLow().getNumber() - 1 ) ) {
-          return true;
-        }
-        if ( number > 7 && row.getType() == type && number == (row.getHigh().getNumber() + 1 ) ) {
-          return true;
+        if (row.getType() == type) {
+          if ( number < 7 && number == (row.getLow().getNumber() - 1 ) ) {
+            return true;
+          }
+          if ( number > 7 && number == (row.getHigh().getNumber() + 1 ) ) {
+            return true;
+          }
         }
       }
       return false;
@@ -332,14 +297,35 @@ var Rows = /** @class */ (function () {
       if (number == 7) {
         return this.rows.push(new Line(type));
       }
-      console.log(type, number)
       for (loopPointer = 0; loopPointer < this.rows.length; loopPointer++ ) {
         var row = this.rows[loopPointer];
-        if ( number < 7 && row.getType() == type && number == (row.getLow().getNumber() - 1 ) ) {
-          return row.setLow(number);
+        if (row.getType() == type) {
+          if ( number < 7 && number == (row.getLow().getNumber() - 1 ) ) {
+            return row.setLow(number);
+          }
+          if ( number > 7 && number == (row.getHigh().getNumber() + 1 ) ) {
+            /* if (number == 13 && row.getLow().getNumber() == 1) {
+              var rowType = type;
+              console.debug('removing type: ', rowType)
+              setTimeout(() => {
+                console.debug('removed type: ', rowType)
+                this.removeLineByType(rowType);
+              }, 8000);
+            } */
+            return row.setHigh(number);
+          }
         }
-        if ( number > 7 && row.getType() == type && number == (row.getHigh().getNumber() + 1 ) ) {
-          return row.setHigh(number);
+      }
+    };
+    Rows.prototype.removeLineByType = function (rowType) {
+      for (lineRemovePointer = 0; lineRemovePointer < this.rows.length; lineRemovePointer++ ) {
+        var row = this.rows[lineRemovePointer];
+        if (row.getType() == rowType) {
+          if ( row.getHigh().getNumber() == 13 && row.getLow().getNumber() == 1) {
+            console.debug('process type: ', row.getType(), ', at: ', lineRemovePointer)
+            this.rows.splice(lineRemovePointer, 1);
+            return;
+          }
         }
       }
     };
@@ -357,6 +343,8 @@ var app = new Vue({
     players: [],
     rows: new Rows(),
     totalPlayers: 4,
+    countPlayers: 4,
+    totalCats: 1,
     playerId: 0,
     isGameOver: false,
     isStarted: true,
@@ -366,23 +354,19 @@ var app = new Vue({
     interval: null
   },
   created() {
-      console.log('Component has been created!');
+      console.debug('Component has been created!');
   },
   methods: {
     playerCard: function (type, number) {
-      console.log(type, number);
+      console.debug(type, number);
       var playerCards = this.players[this.playerId];
       if (this.playerWaiting == true) {
-        console.log(369, type, number);
         if (this.validate(this.playerId, type, number)) {
-          console.log(372, type, number);
           this.index++;
           this.playerWaiting = false;
           var card = this.remove(this.playerId, type, number)
           this.players[this.playerId].card = card;
-            console.log(376, type, number);
           this.closeIfEndedGame(this.playerId);
-            console.log(378, type, number);
           if (this.isStarted == true) {
             this.isStarted = false;
           }
@@ -406,9 +390,9 @@ var app = new Vue({
     stop: function () {
       this.isStopped = true;
       for ( p = 0 ; p < this.totalPlayers ; p++ ) {
-        console.log("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
+        console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
-      console.log(JSON.stringify(this.rows))
+      console.debug(JSON.stringify(this.rows))
     },
     resume: function () {
       this.isStopped = false;
@@ -416,7 +400,7 @@ var app = new Vue({
     closeIfEndedGame: function(n) {
       if (this.totalCard(n) == 0) {
         this.players[n].title = "Winner";
-        console.log("Played & Wonned by " + n);
+        console.debug("Played & Wonned by " + n);
         this.isGameOver = true;
         this.index = n;
         clearInterval(this.interval);
@@ -425,7 +409,6 @@ var app = new Vue({
     getBorderClassForPlayers: function(playerId) {
       var sure = (this.validCards(playerId) == this.totalCard(playerId) & this.isGameOver == false);
       var active = (playerId == (this.index % this.totalPlayers));
-      console.log("getBorderClassForPlayers", playerId, active , this.index, this.totalPlayers);
       if (sure & active) {
         return 'all-page-sure card-active'
       } else if (sure) {
@@ -439,44 +422,39 @@ var app = new Vue({
         if (this.isStopped == false && this.playerWaiting == false) {
           if (this.isGameOver == false) {
             var p = this.index % this.totalPlayers ;
-            if (p == this.playerId) { /*
-            } else if (p != this.playerId) {
-              console.log(437, p, this.index,  this.totalPlayers)
-              this.index++;
-              if ([this.index % this.totalPlayers] == this.playerId) {
-                this.playerWaiting = true;
-              } */
+            if (p == this.playerId) {
             } else {
               var card = this.playCard(p);
-              console.log(this.players[p].name, JSON.stringify(this.rows));
-              //console.log(this.players[p].name, card.toString());
               this.players[p].card = card;
-              if (card != null) {
+              if ( card != null ) {
                 this.closeIfEndedGame(p);
               }
               if (this.isGameOver == false) {
                 this.index++;
-                if ([this.index % 4] == this.playerId) {
+                if ([this.index % this.totalPlayers] == this.playerId) {
                   this.playerWaiting = true;
                 }
               }
             }
           } else {
-            console.log("this.isGameOver:", this.isGameOver);
             clearInterval(this.interval);
           }
         }
       }, 2500);
       for ( p = 0 ; p < this.totalPlayers ; p++ ) {
-        console.log("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
+        console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
     },
     setupData: function() {
       this.cards = [];
       this.players = [];
       this.rows = new Rows();
+      if (this.countPlayers < 6 && this.totalCats == 3) {
+        this.totalCats = 2;
+      }
+      this.totalPlayers = this.countPlayers;
       this.playerId = this.totalPlayers - 1;
-      console.log('setupData',  this.playerId, this.totalPlayers)
+      console.debug('setupData',  this.playerId, this.totalPlayers)
       this.isGameOver = false;
       this.isStopped = false;
       this.playerWaiting = false;
@@ -486,15 +464,14 @@ var app = new Vue({
       this.players = [];
       this.names.sort( () => Math.random() - 0.5 );
       for ( c= 0; c < this.totalPlayers; c++ ) {
-          this.playerSet.name = this.names[c];
+          this.playerSet.name = this.names[c % this.names.length];
           var sam = JSON.parse(JSON.stringify(this.playerSet));
           this.players.push(sam);
       }
-      Cat.getDoubleCat().forEach( (card, c) => {
-        this.players[c % this.totalPlayers].cards[card.getType()].push(card.getNumber());
+      Utils.getCat(this.totalCats).forEach( (card, c) => {
+        this.players[c % this.totalPlayers].cards[card.type].push(card.number);
       });
       for ( p = 0 ; p < this.totalPlayers ; p++ ) {
-        console.log(p, 483)
         var kingCount = 0;
         for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
           this.players[p].cards[type].sort( (a, b) => a-b );
@@ -504,19 +481,16 @@ var app = new Vue({
         }
         if (kingCount == 3) {
           console.warn("Game Fok for " + this.players[p].name);
-          //this.isGameOver = false;
           this.setupData();
           return;
         }
-        console.log(497, this.players[p].name , this.players[p].cards.hearts, this.players[p].cards.hearts.includes(7))
-        if (this.players[p].cards.hearts.includes(7)) {
-          //this.remove( p, 'hearts', 7);
+        if (this.index == 0 && this.players[p].cards.hearts.includes(7)) {
           this.index = p ;
           if (this.index == this.playerId) {
             this.playerWaiting = true;
           }
         }
-        console.log("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
+        console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
 
       if (this.interval) {
@@ -539,7 +513,7 @@ var app = new Vue({
       }
       var diff = 0;
       var pickCard = null;
-      console.log('Core Logic name: ', playerCards.name, ", cards: ", JSON.stringify(playerCards.cards));
+      console.debug('Core Logic name: ', playerCards.name, ", cards: ", JSON.stringify(playerCards.cards));
       var priority = Utils.getPriority();
 
       for (i = 0; i < priority.length; i ++) {
@@ -549,19 +523,9 @@ var app = new Vue({
             if (priorityCardNo < 8) { //Logic for lower cards
               for ( chanceNo = 7 ; chanceNo > priorityCardNo ; chanceNo-- ) { //It will go from 7 till priority
                 if (this.rows.isAllowedCard(type, chanceNo) &&  playerCards.cards[type].includes(chanceNo) ) {
-                  console.log('229', diff, chanceNo - priorityCardNo);
                   if ( diff == 0 || (chanceNo - priorityCardNo) > diff) {
                     diff = chanceNo - priorityCardNo;
                     pickCard = new Card(type, chanceNo);
-                    console.log(diff, pickCard);
-                  }
-                }
-                if (chanceNo == 7 &&  playerCards.cards[type].includes(7)) {
-                  console.log('237', diff, chanceNo - priorityCardNo);
-                  if ( diff == 0 || (chanceNo - priorityCardNo) > diff) {
-                    diff = chanceNo - priorityCardNo;
-                    pickCard = new Card(type, 7);
-                    console.log(diff, pickCard);
                   }
                 }
               }
@@ -569,19 +533,9 @@ var app = new Vue({
             if (priorityCardNo > 6) {
               for ( chanceNo = 7 ; chanceNo < priorityCardNo ; chanceNo++ ) {
                 if (this.rows.isAllowedCard(type, chanceNo) &&  playerCards.cards[type].includes(chanceNo)  ) {
-                  console.log('251', diff, priorityCardNo - chanceNo);
                   if ( diff == 0 || (priorityCardNo - chanceNo) > diff) {
                     diff = priorityCardNo - chanceNo;
                     pickCard = new Card(type, chanceNo);
-                    console.log(diff, pickCard);
-                  }
-                }
-                if (chanceNo == 7 && playerCards.cards[type].includes(7)) {
-                  console.log('259', diff, priorityCardNo - chanceNo);
-                  if ( diff == 0 || (priorityCardNo - chanceNo) > diff) {
-                    diff = priorityCardNo - chanceNo;
-                    pickCard = new Card(type, 7);
-                    console.log(diff, pickCard);
                   }
                 }
               }
@@ -589,11 +543,11 @@ var app = new Vue({
           }
         }
       };
-      console.log('271', diff, pickCard);
+      console.debug('271', diff, pickCard);
       if (diff > 0) {
         return this.remove( p, pickCard.getType(), pickCard.getNumber() );
       }
-      console.log('throws based on priority for : ', playerCards.name);
+      console.debug('throws based on priority for : ', playerCards.name);
       //throws none option
       for (i = 0; i < priority.length; i ++) {
         var priorityCardNo = priority [i];
@@ -611,12 +565,8 @@ var app = new Vue({
     ,
     remove: function( p, type, number) {
       var playerCards = this.players[p];
-      console.log('berefore playerCards name : ', playerCards.name, ", cards: ", JSON.stringify(playerCards.cards[type]));
       playerCards.cards[type].splice(playerCards.cards[type].indexOf(number), 1);
-      console.log('after playerCards name : ', playerCards.name, ", cards: ", JSON.stringify(playerCards.cards[type]));
-      console.log(' before playerCards rows : ', JSON.stringify(this.rows));
       this.rows.addCard(type, number);
-      console.log(' after playerCards rows : ', JSON.stringify(this.rows));
       return new Card(type, number);
     },
     validate: function(p, type, number) {
@@ -627,14 +577,7 @@ var app = new Vue({
       if (this.isStarted) {
         return (type == 'hearts' && number == 7);
       }
-      console.log(JSON.stringify(this.rows))
-      console.log("p:", p, ", type:", type, ", number:", number)
-
-      if ( this.rows.isAllowedCard(type, number) ) {
-        console.log("611: allowed card, number:", number, ", type:", type)
-        return true;
-      }
-      return false;
+      return this.rows.isAllowedCard(type, number) ;
     },
     validCards: function(n) {
       var playerCards = this.players[n];
@@ -642,11 +585,8 @@ var app = new Vue({
         return (playerCards.cards.hearts.includes(7)) ? 1 : 0;
       }
       var availableCards = 0;
-        console.debug(632, Utils.getTypes())
       for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
         for ( index = 0 ; index < playerCards.cards[type].length ; index++ ) {
-          console.debug("t: ", t, ", type: ", type, ", index: ", playerCards.cards[type][index],
-            this.rows.isAllowedCard( type, playerCards.cards[type][index] ));
           if (this.rows.isAllowedCard( type, playerCards.cards[type][index] )) {
             availableCards++;
           }
@@ -656,7 +596,7 @@ var app = new Vue({
     }
   },
   mounted() {
-    console.log('Component has been Mounted!');
+    console.debug('Component has been Mounted!');
     this.setupData();
   }
 });

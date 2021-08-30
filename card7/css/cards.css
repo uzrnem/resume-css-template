@@ -514,9 +514,6 @@
 .playingCards ul.hand li:nth-child(25) { left: 26.4em; }
 .playingCards ul.hand li:nth-child(26) { left: 27.5em; }
 */
-.playingCards ul.table-card li:nth-child(1)  { left: 0 !important; }
-.playingCards ul.table-card li:nth-child(2)  { left: 1.2em !important; }
-.playingCards ul.table-card li:nth-child(3)  { left: 2.4em !important; }
 
 .playingCards ul.hand li:nth-child(1)  { left: 0; }
 .playingCards ul.hand li:nth-child(2)  { left: 2em; }
@@ -907,11 +904,89 @@
     -o-transform: rotate(84deg);
     transform: rotate(84deg);
 }
+.playingCards.rotateHand ul.hand-deck li:nth-child(14) {
+    -moz-transform: rotate(91deg);
+    -webkit-transform: rotate(91deg);
+    -o-transform: rotate(91deg);
+    transform: rotate(91deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(15) {
+    -moz-transform: rotate(98deg);
+    -webkit-transform: rotate(98deg);
+    -o-transform: rotate(98deg);
+    transform: rotate(98deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(16) {
+    -moz-transform: rotate(105deg);
+    -webkit-transform: rotate(105deg);
+    -o-transform: rotate(105deg);
+    transform: rotate(105deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(17) {
+    -moz-transform: rotate(112deg);
+    -webkit-transform: rotate(112deg);
+    -o-transform: rotate(112deg);
+    transform: rotate(112deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(18) {
+    -moz-transform: rotate(119deg);
+    -webkit-transform: rotate(119deg);
+    -o-transform: rotate(119deg);
+    transform: rotate(119deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(19) {
+    -moz-transform:  rotate(126deg);
+    -webkit-transform:  rotate(126deg);
+    -o-transform:  rotate(126deg);
+    transform:  rotate(126deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(20) {
+    -moz-transform:  rotate(133deg);
+    -webkit-transform:  rotate(133deg);
+    -o-transform:  rotate(133deg);
+    transform:  rotate(133deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(21) {
+    -moz-transform:  rotate(140deg);
+    -webkit-transform:  rotate(140deg);
+    -o-transform:  rotate(140deg);
+    transform:  rotate(140deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(22) {
+    -moz-transform: rotate(147deg);
+    -webkit-transform: rotate(147deg);
+    -o-transform: rotate(147deg);
+    transform: rotate(147deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(23) {
+    -moz-transform: rotate(154deg);
+    -webkit-transform: rotate(154deg);
+    -o-transform: rotate(154deg);
+    transform: rotate(154deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(24) {
+    -moz-transform: rotate(161deg);
+    -webkit-transform: rotate(161deg);
+    -o-transform: rotate(161deg);
+    transform: rotate(161deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(25) {
+    -moz-transform: rotate(168deg);
+    -webkit-transform: rotate(168deg);
+    -o-transform: rotate(168deg);
+    transform: rotate(168deg);
+}
+.playingCards.rotateHand ul.hand-deck li:nth-child(26) {
+    -moz-transform: rotate(175deg);
+    -webkit-transform: rotate(175deg);
+    -o-transform: rotate(175deg);
+    transform: rotate(175deg);
+}
 .playingCards.rotateHand ul.hand-deck li {
-    -moz-transform: rotate(84deg);
-    -webkit-transform: rotate(84deg);
-    -o-transform: rotate(84deg);
-    transform: rotate(84deg);
+    -moz-transform: rotate(175deg);
+    -webkit-transform: rotate(175deg);
+    -o-transform: rotate(175deg);
+    transform: rotate(175deg);
 }
 
 .playingCards ul.hand-deck li:nth-child(1)  { left: 0;    bottom: 0; }
@@ -928,3 +1003,75 @@
 .playingCards ul.hand-deck li:nth-child(12) { left: 22px; bottom: -11px; }
 .playingCards ul.hand-deck li:nth-child(13) { left: 24px; bottom: -12px; }
 .playingCards ul.hand-deck li { left: 24px; bottom: -12px; }
+
+.playingCards ul.deck, .playingCards ul.hand { margin: 0 0 0.5rem 0;}
+
+.playingCards ul.table-card li:nth-child(1)  { left: 0 !important; }
+.playingCards ul.table-card li:nth-child(2)  { left: 1.2em !important; }
+.playingCards ul.table-card li:nth-child(3)  { left: 2.4em !important; }
+
+.playingCards ul.closed-table-card li { left: 0em; }
+.playingCards.rotateHand ul.closed-table-card li:nth-child(1) {
+  -moz-transform: translate(1.9em, .9em) rotate(0) !important;
+  -webkit-transform: translate(1.9em, .9em) rotate(0) !important;
+  -o-transform: translate(1.9em, .9em) rotate(0) !important;
+  transform: translate(1.9em, .9em) rotate(0) !important;
+}
+.playingCards.rotateHand ul.closed-table-card li:nth-child(2) {
+  display: none;
+}
+.playingCards.rotateHand ul.closed-table-card li:nth-child(3) {
+  left: -0.5em;
+  -moz-transform: translate(3.5em, 1.2em) rotate(15deg) !important;
+  -webkit-transform: translate(3.5em, 1.2em) rotate(15deg) !important;
+  -o-transform: translate(3.5em, 1.2em) rotate(15deg) !important;
+  transform: translate(3.5em, 1.2em) rotate(15deg) !important;
+}
+
+.playingCards.rotateHand ul.table-card li:nth-child(1) {
+  -moz-transform: translate(1.9em, .9em) rotate(-18deg) !important;
+  -webkit-transform: translate(1.9em, .9em) rotate(-18deg) !important;
+  -o-transform: translate(1.9em, .9em) rotate(-18deg) !important;
+  transform: translate(1.9em, .9em) rotate(-18deg) !important;
+}
+.playingCards.rotateHand ul.table-card li:nth-child(2) {
+  -moz-transform: translate(1.9em, .9em) rotate(0) !important;
+  -webkit-transform: translate(1.9em, .9em) rotate(0) !important;
+  -o-transform: translate(1.9em, .9em) rotate(0) !important;
+  transform: translate(1.9em, .9em) rotate(0) !important;
+}
+.playingCards.rotateHand ul.table-card li:nth-child(3) {
+  -moz-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
+  -webkit-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
+  -o-transform: translate(1.9em, 1.3em) rotate(18deg) !important;
+  transform: translate(1.9em, 1.3em) rotate(18deg) !important;
+}
+.playingCards .p-card-label {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 3.2rem;
+  padding: 0rem 0.5rem;
+  border: 1px solid #666;
+  border-radius: .3em;
+  -moz-border-radius: .3em;
+  -webkit-border-radius: .3em;
+  -khtml-border-radius: .3em;
+  background-color: #fff;
+  -moz-box-shadow: .2em .2em .5em #333;
+  -webkit-box-shadow: 0.2em 0.2em 0.5em #333;
+  box-shadow: 0.2em 0.2em 0.5em #333;
+}
+.playingCards .p-card-label.back {
+  padding: .2rem 0.5rem;
+  height: 1.5rem;
+  text-indent: -4000px;
+  background-color: #ccc;
+  background-repeat: repeat;
+  background-image: -moz-repeating-linear-gradient(34% 6% 135deg,#335bcc, #333c66, #333c66 50%);
+  background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#335bcc), color-stop(0.4, #333c66), to(#333c66));
+}
+.playingCards .p-card-label.diams { color: #f00 !important; }
+.playingCards .p-card-label.hearts { color: #f00 !important; }
+.playingCards .p-card-label.spades { color: #000 !important; }
+.playingCards .p-card-label.clubs { color: #000 !important; }
