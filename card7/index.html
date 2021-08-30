@@ -67,13 +67,13 @@
         </div>
         <div class="form-group ml-3">
           <label for="pwd">Cats:</label>
-          <select id="pwd" class="form-control" v-model="totalCats">
+          <select id="pwd" class="form-control" v-model="countCats">
             <template v-for="n in 3">
               <option v-bind:value="n">{{n}}</option>
             </template>
           </select>
         </div>
-        <a @click="setupData()" class="game-btn form-group ml-3 mr-3" style="display: inline;">Start</a>
+        <a @click="changeCountData()" class="game-btn form-group ml-3 mr-3" style="display: inline;">Start</a>
       </form>
     </div>
   </div>
@@ -196,17 +196,9 @@ var Utils = /** @class */ (function () {
     Utils.types = { spades: '♠', hearts: '♥', clubs: '♣', diams: '♦' };
     Utils.numbers = ["X", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
     Utils.priorities = [13, 1, 12, 2, 11, 3, 10, 4, 9, 5, 8, 6, 7];
-    Utils.getTypes = function () {
-        return Utils.types;
-    };
-    ;
-    Utils.getNumbers = function () {
-        return Utils.numbers;
-    };
-    ;
-    Utils.getPriority = function () {
-        return Utils.priorities;
-    };
+    Utils.getTypes = function () { return Utils.types; };
+    Utils.getNumbers = function () { return Utils.numbers; };
+    Utils.getPriority = function () { return Utils.priorities; };
     Utils.getCat = function (size) {
       var cards = [];
       for ( const [type, t] of Object.entries(Utils.getTypes()) ) {
@@ -222,64 +214,29 @@ var Utils = /** @class */ (function () {
     return Utils;
 }());
 var Card = /** @class */ (function () {
-    function Card(type, number) {
-        this.type = type;
-        this.number = number;
-    }
-    Card.prototype.getType = function () {
-        return this.type;
-    };
-    Card.prototype.getNumber = function () {
-        return this.number;
-    };
-    Card.prototype.setNumber = function (number) {
-        this.number = number;
-    };
-    Card.prototype.getTypeSymbol = function () {
-      return Utils.getTypes()[this.type];
-    };
-    Card.prototype.getNumberSymbol = function () {
-      return Utils.getNumbers()[this.number];
-    };
-    Card.prototype.toString = function () {
-        return this.getNumberSymbol() + ' ' + this.getTypeSymbol();
-    };
+    function Card(type, number) { this.type = type; this.number = number; }
+    Card.prototype.getType = function () { return this.type; };
+    Card.prototype.getNumber = function () { return this.number; };
+    Card.prototype.setNumber = function (number) { this.number = number; };
+    Card.prototype.getTypeSymbol = function () { return Utils.getTypes()[this.type]; };
+    Card.prototype.getNumberSymbol = function () { return Utils.getNumbers()[this.number]; };
+    Card.prototype.toString = function () { return this.getNumberSymbol() + ' ' + this.getTypeSymbol(); };
     return Card;
 }());
 var Line = /** @class */ (function () {
-    function Line(type) {
-        this.type = type;
-        this.high = new Card(type, 7);
-        this.low = new Card(type, 7);
-    }
-    Line.prototype.getType = function () {
-        return this.type;
-    };
-    Line.prototype.setHigh = function (number) {
-        this.high.setNumber(number);
-    };
-    Line.prototype.getHigh = function () {
-        return this.high;
-    };
-    Line.prototype.setLow = function (number) {
-        this.low.setNumber(number);
-    };
-    Line.prototype.getLow = function () {
-        return this.low;
-    };
+    function Line(type) { this.type = type; this.high = new Card(type, 7); this.low = new Card(type, 7); }
+    Line.prototype.getType = function () { return this.type; };
+    Line.prototype.setHigh = function (number) { this.high.setNumber(number); };
+    Line.prototype.getHigh = function () { return this.high; };
+    Line.prototype.setLow = function (number) { this.low.setNumber(number); };
+    Line.prototype.getLow = function () { return this.low; };
     return Line;
 }());
 var Rows = /** @class */ (function () {
-    function Rows() {
-        this.rows = [];
-    }
-    Rows.prototype.getRows = function () {
-        return this.rows;
-    };
+    function Rows() { this.rows = []; }
+    Rows.prototype.getRows = function () { return this.rows; };
     Rows.prototype.isAllowedCard = function (type, number) {
-      if (number == 7) {
-        return true;
-      }
+      if (number == 7) { return true; }
       for (loopPointer = 0; loopPointer < this.rows.length; loopPointer++ ) {
         var row = this.rows[loopPointer];
         if (row.getType() == type) {
@@ -345,6 +302,7 @@ var app = new Vue({
     totalPlayers: 4,
     countPlayers: 4,
     totalCats: 1,
+    countCats: 1,
     playerId: 0,
     isGameOver: false,
     isStarted: true,
@@ -445,14 +403,20 @@ var app = new Vue({
         console.debug("player[", this.players[p].name, "]:", JSON.stringify(this.players[p]));
       }
     },
+    changeCountData: function() {
+      if (this.countPlayers < 6 && this.countCats == 3) {
+        this.totalCats = 2;
+        this.countCats = 2;
+      } else {
+        this.totalCats = this.countCats;
+      }
+      this.totalPlayers = this.countPlayers;
+      this.setupData();
+    },
     setupData: function() {
       this.cards = [];
       this.players = [];
       this.rows = new Rows();
-      if (this.countPlayers < 6 && this.totalCats == 3) {
-        this.totalCats = 2;
-      }
-      this.totalPlayers = this.countPlayers;
       this.playerId = this.totalPlayers - 1;
       console.debug('setupData',  this.playerId, this.totalPlayers)
       this.isGameOver = false;
@@ -479,7 +443,7 @@ var app = new Vue({
             kingCount ++ ;
           }
         }
-        if (kingCount == 3) {
+        if (this.totalCats == 1 && kingCount == 3) {
           console.warn("Game Fok for " + this.players[p].name);
           this.setupData();
           return;
