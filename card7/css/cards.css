@@ -1048,8 +1048,8 @@
 }
 .playingCards .p-card-label {
   position: absolute;
-  right: 1rem;
-  top: 1rem;
+  right: -0.2rem;
+  top: 0.5em;
   width: 3.2rem;
   padding: 0rem 0.5rem;
   border: 1px solid #666;

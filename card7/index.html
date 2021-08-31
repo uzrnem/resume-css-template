@@ -46,7 +46,7 @@
       position: absolute;
       align-content: center;
       color: rgb(11 28 113);
-      bottom: 2;
+      bottom: 2px;
       font-size: 2rem;
     }
     </style>
@@ -66,14 +66,17 @@
     </div>
   </div>
   <div class="row justify-content-md-center mt-1 pl-2 pr-2">
-    <div class="col-lg-2 col-md-2 col-sm-4 col-4" v-for="(m, n) in (totalPlayers - 1)">
+    <div class="col-sm-4 col-4" v-for="(m, n) in (totalPlayers - 1)"
+      v-bind:class="[ totalPlayers > 4 ? 'col-lg-2 col-md-2' : 'col-lg-3 col-md-4']">
       <div class="card text-center" v-if="players[n]"
         v-bind:class="getBorderClassForPlayers(n)">
         <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
-          <div style=""> {{players[n].name}} <span class="badge badge-info">{{players[n].getPoints()}}</span>
+          <div style=""> {{players[n].name}} <span class="badge badge-info" v-if="players[n].getPoints() > 0">{{players[n].getPoints()}}</span>
             <div style="position:absolute; right:0.5rem; top: 0rem;">
-              <div class="p-card-label back" v-if="players[n].getLastCard() == null && isGameOver == false && (n != (index % totalPlayers))" ></div>
-              <span class="p-card-label" :class="players[n].getLastCard().getType()" v-if="( isGameOver == false && players[n].getLastCard() != null && n != (index % totalPlayers) ) || players[n].getIsWinner() " >
+              <div class="p-card-label back" style="top: 2.5em; z-index: 2;"
+                v-if="players[n].getLastCard() == null && isGameOver == false && (n != (index % totalPlayers))" ></div>
+              <span class="p-card-label" :class="players[n].getLastCard().getType()" style="top: 2.5em; z-index: 2"
+                v-if="( isGameOver == false && players[n].getLastCard() != null && n != (index % totalPlayers) ) || players[n].getIsWinner() " >
                 <span class="rank">{{players[n].getLastCard().toString()}}</span>
               </span>
             </div>
@@ -89,12 +92,12 @@
           <div class="title-text" v-if="players[n].getIsWinner()"> Winner </div>
           <ul class="hand" style="z-index: 5;">
             <template v-for="(numbers, type) in players[n].getCardList()">
-              <li v-for="number in numbers">
-                  <a class="p-card" :class="type + ' rank-' + getNumberSymbol(number)">
-                      <span class="rank">{{getNumberSymbol(number)}}</span>
-                      <span class="suit">{{getTypeSymbol(type)}}</span>
-                  </a>
-              </li>
+              <template v-for="number in numbers">
+                  <span class="p-card-label" :class="type"
+                    style="position: unset; right: unset; top: unset; margin: 3px; display: inline-block; width: 3.5rem;" >
+                    <span class="rank">{{getNumberSymbol(number)}} {{getTypeSymbol(type)}}</span>
+                  </span>
+              </template>
             </template>
           </ul>
         </div>
@@ -146,7 +149,7 @@
       <div class="card text-center" v-if="players[playerId]"
         v-bind:class="getBorderClassForPlayers(playerId)">
         <div class="card-header d-flex" style="padding: .3rem 1rem 0.3rem 1rem; border-bottom: none;position:relative">
-          <div style=""> {{players[playerId].name}} <span class="badge badge-info">{{players[playerId].getPoints()}}</span>
+          <div style=""> {{players[playerId].name}} <span class="badge badge-info" v-if="players[playerId].getPoints() > 0">{{players[playerId].getPoints()}}</span>
             <a @click="setupData()" class="game-btn ml-5">New Game</a>
             <a @click="isStopped = true" v-if="isStopped == false" class="game-btn">Pause</a>
             <a @click="isStopped = false" v-if="isStopped == true" class="game-btn">Resume</a>
