@@ -1,0 +1,3 @@
+sudo chmod a+x jarfile.jar
+java -jar new.sh
+chdmod +x file.sh

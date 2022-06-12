@@ -1,0 +1,3 @@
+sudo netstat -lnp
+source/destination ip:port portstate pid/processname
+kill pid

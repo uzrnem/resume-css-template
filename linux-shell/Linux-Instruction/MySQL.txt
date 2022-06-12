@@ -1,0 +1,16 @@
+shell> tar -xvf mysql-server_MVER-DVER_CPU.deb-bundle.tar
+shell> sudo dpkg -i package-name.deb
+shell> sudo dpkg -i mysql-common_MVER-DVER_CPU.deb
+shell> dpkg-preconfigure mysql-community-server_MVER-DVER_CPU.deb
+
+http://www.us.apache.org/dist/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz
+
+tar xvzf apache-tomcat*.tar.gz -C /tmp/
+sudo chmod -R root:root /tmp/apache-tomcat*
+sudo mv /tmp/apache-tomcat-8* /opt/
+    /opt/apache-tomcat-8*/bin/startup.sh
+    Stop
+    /opt/apache-tomcat-8*/bin/shutdown.sh
+
+To Access Tomcat Server on Browser Go
+localhost:8080

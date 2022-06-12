@@ -1,0 +1,1 @@
+root@kali:~# sudo /etc/init.d/apache2 restartroot@kali:~# sudo /etc/init.d/apache2 stop/var/www/html <- put your file here for php

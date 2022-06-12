@@ -1,0 +1,15 @@
+tar -xf file.tar.bz2
+cd dir_name
+./configure
+make
+sudo make install
+*dir_name* is the same as file name but without file extension.
+
+You would probobly need build-essential package before compiling.
+
+You can install it by typing:
+
+sudo apt-get install build-essential
+Like iSeth said it's better and simpler to install Wine from repo by just typing:
+
+sudo apt-get install wine

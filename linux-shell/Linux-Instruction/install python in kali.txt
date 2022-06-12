@@ -1,0 +1,5 @@
+move folder  to desktop 
+go python folder ./configure
+type make
+type "su root"
+type "make install"
