@@ -1,0 +1,16 @@
+<html lang="en">
+  <head>
+    <script src="vue-2.6.12.js"></script>
+  </head>
+  <body>
+    <div id="js-app">
+      <span v-for="item, index in 10" :key="index">{{item}} </span>
+    </div>
+  </body>
+<!-- our javascript -->
+<script>
+  new Vue({
+    el: '#js-app'
+  });
+</script>
+</html>

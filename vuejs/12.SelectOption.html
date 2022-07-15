@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script src="vue-2.6.12.js"></script>
+  </head>
+  <body>
+    <div id="js-app">
+      Background Color: <select @change="onChange($event)">
+        <option value="red">Red</option>
+        <option value="blue" selected>Blue</option>
+        <option value="green">Green</option>
+      </select>
+    </div>
+  </body>
+
+<script>
+  new Vue({
+    el: "#js-app",
+    methods: {
+      onChange(event) {
+        document.body.bgColor = event.target.value;
+      }
+    },
+    mounted: function() {
+      document.body.bgColor = "blue"
+    }
+  })
+</script>
+</html>

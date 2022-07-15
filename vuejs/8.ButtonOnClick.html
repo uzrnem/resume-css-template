@@ -1,0 +1,26 @@
+<html>
+<head>
+  <script src="vue-2.6.12.js"></script>
+</head>
+<body>
+  <div id="vue-app">
+    <div>{{titleText}}</div>
+    <button @click="pressed()">Button</button>
+  </div>
+</body>
+
+<!-- our javascript -->
+<script>
+  new Vue({
+    el: '#vue-app',
+    data: {
+      titleText: "Welcome"
+    },
+    methods: {
+      pressed: function () {
+        this.titleText = this.titleText.split("").reverse().join("");
+      }
+    },
+  });
+</script>
+</html>
