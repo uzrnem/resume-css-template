@@ -1,4 +1,0 @@
-mongod –repair
-  425  npm run mongo-repair
-  426  sudo service mongod restart
-
